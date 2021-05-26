@@ -1,0 +1,77 @@
+* {
+    background-color: #E1D8CA;
+}
+.header {
+    display: flex;
+    font-size: 40px;
+}
+.header div {
+    margin: 2px;
+}
+.header .header-buttons {
+    margin-left: auto;
+}
+
+.horizontal-line {
+     content: ' ';
+     display: block;
+     border: 1px solid black;
+ }
+
+.content {
+    margin: 5%;
+    display: flex;
+    gap: 10%;
+}
+
+.login-box {
+    height: min-content;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form input {
+    margin: 5px;
+}
+
+.login-form input[type=submit] {
+    width: min-content;
+    align-self: center;
+}
+
+.product-carousel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.product {
+    margin: 16px;
+    padding-top: 60px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    width: 124px;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 10px;
+    width: 100%;
+}
+.footer span {
+    margin: 10px;
+}
