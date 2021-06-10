@@ -1,0 +1,16 @@
+.products-page {
+    display: flex;
+    justify-content: space-between;
+}
+
+.products-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, max-content));
+    justify-content: center;
+    padding: 20px;
+}
+
+.products-grid li {
+    list-style-type: none;
+}
