@@ -1,5 +1,4 @@
 import React from "react";
-import M from '@materializecss/materialize';
 
 import './ProductsFilterSidebar.scss'
 

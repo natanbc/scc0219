@@ -2,7 +2,6 @@ import { ProductCard } from './ProductCard.js'
 import {ProductsFilterSidebar} from './ProductsFilterSidebar.js' 
 import { Products } from '../repository/Products.js'
 import './ProductsPage.css'
-import { AutoInit, initializeJqueryWrapper } from '@materializecss/materialize';
 
 export function ProductsPage() {
     const productCards = [];
