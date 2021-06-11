@@ -1,0 +1,8 @@
+@import '../App.scss';
+
+// Revert anchor text color.
+.collection {
+    a.collection-item {
+        color: $off-black;
+    }
+}
