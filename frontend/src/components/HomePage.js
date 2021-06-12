@@ -7,16 +7,16 @@ export function HomePage() {
             <form className="card-panel col s3 offset-s1">
                 <div className="row">
                     <div className="input-field col s12">
-                        <i class="material-icons prefix">email</i>
+                        <i className="material-icons prefix">email</i>
                         <input id="email" type="email" className="validate"/>
-                        <label for="email">Email</label>
+                        <label htmlFor="email">Email</label>
                     </div>
                 </div>
                 <div className="row">
                     <div className="input-field col s12">
-                        <i class="material-icons prefix">password</i>
+                        <i className="material-icons prefix">password</i>
                         <input id="password" type="password" className="validate"/>
-                        <label for="password">Password</label>
+                        <label htmlFor="password">Password</label>
                     </div>
                 </div>
                 <div className="row">

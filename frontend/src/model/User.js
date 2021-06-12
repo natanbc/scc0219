@@ -1,9 +1,7 @@
 export class User {
-    static nextId = 0;
-
     /// Last parameter is "overloaded".
     constructor(email, password, name, phone, addressOrAdmin = undefined) {
-        this._id = User.nextId;
+        // Id is only set when saved to repository.
         this.email = email;
         this.password = password;
         this.name = name;
@@ -17,8 +15,6 @@ export class User {
             this.address = addressOrAdmin;
             this.isAdmin = false;
         }
-
-        User.nextId++;
     }
 
     get id() {

@@ -6,12 +6,12 @@ function FormInput({name, type, children, value, onChange}) {
         return <div className="input-field">
             <input id={name} name={name} type={type}
                 value={value} onChange={onChange}/>
-            <label for="name" className="active">{children}</label>
+            <label htmlFor="name" className="active">{children}</label>
         </div>;
     } else {
         return <div className="input-field">
             <input id={name} name={name} type={type}/>
-            <label for="name">{children}</label>
+            <label htmlFor="name">{children}</label>
         </div>;
     }
 }
@@ -33,6 +33,12 @@ export function UserEditModal(props) {
             setModal(modal);
         }
     });
+
+    const submit = () => {
+        // TODO: Error handling
+        props.usersRepo.updateUser(user);
+        close();
+    };
 
     const close = () => {
         modal.close();
@@ -98,7 +104,7 @@ export function UserEditModal(props) {
             </a>
             <input type="submit" value="Create Account"
                 className="btn-flat orange-text text-darken-4 waves-effect waves-orange"
-                onClick={close}/>
+                onClick={submit}/>
         </div>
     </form>;
 }

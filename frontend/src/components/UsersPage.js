@@ -1,5 +1,4 @@
 import './UsersPage.scss'
-import { Users } from '../repository/Users.js';
 import { UserEditModal } from './UserEditModal.js'
 import React from "react";
 
@@ -20,26 +19,40 @@ export function UserListItem({ user, onClick }) {
     </a>;
 }
 
-export function UsersPage() {
+// TODO: Add users.
+export function UsersPage({usersRepo}) {
     // State
     const [userToEdit, setUserToEdit] = React.useState(null);
 
-    const users = new Users();
-
     // Generate user list.
-    const userItems = [];
-    for (const user of users.getUsers(0, 50)) {
-        userItems.push(
-            <UserListItem
-                user={user}
-                onClick={() => { setUserToEdit(user); }}
-            />);
+    const [userItems, setUserItems] = React.useState([]);
+
+    async function loadUsers() {
+        // TODO: Paging
+        // TODO: Handle errors
+        const users = await usersRepo.getUsers(0);
+
+        const userItems = [];
+        for (const user of users) {
+            userItems.push(
+                <UserListItem
+                    key={user.id}
+                    user={user}
+                    onClick={() => { setUserToEdit(user); }}
+                />);
+        }
+
+        setUserItems(userItems);
     }
+
+    React.useEffect(() => {
+        loadUsers();
+    }, [usersRepo, userToEdit]);
 
     return <div className="container">
         { userToEdit != null
-            && <UserEditModal user={{...userToEdit}}
-                onClose={() => setUserToEdit(null)}/>
+            && <UserEditModal usersRepo={usersRepo} user={{...userToEdit}}
+                onClose={() => setUserToEdit(null) }/>
         }
         <div className="card-panel collection with-header col s6">
             <div className="collection-header"><h4>Users</h4></div>

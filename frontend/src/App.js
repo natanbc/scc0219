@@ -13,7 +13,7 @@ function Route({ path, children }) {
 	return null;
 }
 
-function App() {
+function App({usersRepo}) {
 	return <>
 		<header>
 			<NavBar></NavBar>
@@ -26,7 +26,7 @@ function App() {
 				<ProductsPage></ProductsPage>
 			</Route>
 			<Route path="/users">
-				<UsersPage></UsersPage>
+				<UsersPage usersRepo={usersRepo}></UsersPage>
 			</Route>
 		</main>
 		<Footer></Footer>
