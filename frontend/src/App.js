@@ -4,16 +4,9 @@ import { Footer } from './components/Footer.js';
 import { HomePage } from './components/HomePage.js';
 import { ProductsPage } from './components/ProductsPage.js'
 import { UsersPage } from './components/UsersPage.js'
+import Route from './components/Route';
 
-function Route({ path, children }) {
-	if (path === window.location.pathname) {
-		return children;
-	}
-
-	return null;
-}
-
-function App({usersRepo}) {
+function App({usersRepo, productsRepo}) {
 	return <>
 		<header>
 			<NavBar></NavBar>
@@ -23,7 +16,7 @@ function App({usersRepo}) {
 				<HomePage></HomePage>
 			</Route>
 			<Route path="/products">
-				<ProductsPage></ProductsPage>
+				<ProductsPage productsRepo={productsRepo}></ProductsPage>
 			</Route>
 			<Route path="/users">
 				<UsersPage usersRepo={usersRepo}></UsersPage>

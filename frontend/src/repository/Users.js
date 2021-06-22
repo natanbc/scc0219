@@ -1,6 +1,6 @@
 import {User} from '../model/User.js'
 
-const USERS_STORE = "users";
+export const USERS_STORE = "users";
 export class Users {
     static _users = [
         new User("admin@example.com", "123", "Fulano Admin",
@@ -76,7 +76,7 @@ export class Users {
                 // So that's why cursors work in the following completely bizarre way:
                 // When you advance the cursor, the original cursor request's
                 // success or error events will be called.
-                // So this function is called 20 or till the cursor ends (ie: null),
+                // So this function is called count times or till the cursor ends (ie: null),
                 // whichever happens first.
                 idbCursorWithValue.continue();
             }

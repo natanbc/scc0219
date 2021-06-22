@@ -18,3 +18,18 @@ $error-color: color("red", "base");
 $link-color: color("light-blue", "darken-1");
 
 @import 'materialize-css';
+
+// Fix and additions to materialize.
+
+// Add outlined button.
+.btn-outlined {
+  @extend .btn-flat;
+  padding: $button-padding;
+  border: 1.5px solid color("grey", "lighten-1");
+}
+
+// Fix modal-footer button margin.
+.modal .modal-footer .btn,
+.modal .modal-footer .btn-flat {
+  margin-right: 8px;
+}

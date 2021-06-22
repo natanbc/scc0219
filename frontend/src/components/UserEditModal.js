@@ -27,43 +27,36 @@ export function UserEditModal(props) {
             const baseClose = modal.close;
             modal.close = function(trigger) {
                 baseClose.apply(this, trigger);
+                window.location.hash = "";
                 props.onClose();
             }
             modal.open();
             setModal(modal);
         }
-    });
+    }, [modal, ref, props]);
 
     const submit = () => {
         // TODO: Error handling
-        props.usersRepo.updateUser(user);
-        close();
-    };
-
-    const close = () => {
+        if (props.isNew) {
+            props.usersRepo.createUser(user);
+        } else {
+            props.usersRepo.updateUser(user);
+        }
         modal.close();
-        props.onClose();
     };
 
-    return <form ref={ref} id="edit-user-modal" className="modal">
+    return <form ref={ref} id={props.id} className="modal">
         <div className="modal-content">
-            <p>{user.name}
-                <div className="switch right">
-                    <label>
-                        Client
-                        { user.isAdmin
-                            ? <input type="checkbox" checked
-                                onChange={(event) =>
-                                    setUser({...user, isAdmin: event.target.checked})}/>
-                            : <input type="checkbox"
-                                onChange={(event) =>
-                                    setUser({...user, isAdmin: event.target.checked})}/>
-                        }
-                        <span className="lever"></span>
-                        Administrator
-                    </label>
-                </div>
-            </p>
+            <div className="switch right">
+                <label>
+                    Client
+                    <input type="checkbox" checked={user.isAdmin}
+                        onChange={(event) =>
+                            setUser({...user, isAdmin: event.target.checked})}/>
+                    <span className="lever"></span>
+                    Administrator
+                </label>
+            </div>
             <FormInput name="name" type="text"
                 value={user.name} onChange={(event) =>
                     setUser({...user, name: event.target.value})
@@ -85,11 +78,13 @@ export function UserEditModal(props) {
                     setUser({...user, password: event.target.value})
                 }>
                 Confirm Password</FormInput>
-            <FormInput name="address" type="text"
-                value={user.address} onChange={(event) =>
-                    setUser({...user, address: event.target.value})
-                }>
-                Endereço</FormInput>
+            { user.isAdmin &&
+                <FormInput name="address" type="text"
+                    value={user.address} onChange={(event) =>
+                        setUser({...user, address: event.target.value})
+                    }>
+                    Endereço</FormInput>
+            }
             <FormInput name="phone" type="tel"
                 value={user.phone} onChange={(event) =>
                     setUser({...user, phone: event.target.value})
@@ -97,13 +92,12 @@ export function UserEditModal(props) {
                 Telefone</FormInput>
         </div>
         <div className="modal-footer">
-            <a href="#!"
-                className="btn-flat orange-text text-darken-4 waves-effect waves-orange"
-                onClick={close}>
+            <button onClick={() => modal.close()}
+                className="btn-outlined orange-text text-darken-4 waves-effect waves-orange">
                 Cancel
-            </a>
-            <input type="submit" value="Create Account"
-                className="btn-flat orange-text text-darken-4 waves-effect waves-orange"
+            </button>
+            <input type="submit" value={ props.isNew ? "Create Account" : "Save Account" }
+                className="btn white-text text-darken-4 waves-effect waves-orange"
                 onClick={submit}/>
         </div>
     </form>;

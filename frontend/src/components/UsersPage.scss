@@ -1,8 +1,19 @@
 @import '../App.scss';
 
 // Revert anchor text color.
-.collection {
-    a.collection-item {
-        color: $off-black;
-    }
+#user-collection a.collection-item {
+    color: $off-black;
+}
+
+// Add space for floating action button on first list element.
+#user-collection > a.collection-item:nth-child(2) {
+    margin-top: 30px;
+}
+
+// Position floating action button.
+#user-collection .btn-floating {
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -5px;
+    z-index: 2;
 }

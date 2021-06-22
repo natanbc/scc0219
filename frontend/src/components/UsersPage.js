@@ -1,10 +1,11 @@
 import './UsersPage.scss'
 import { UserEditModal } from './UserEditModal.js'
 import React from "react";
+import Route from './Route';
 
 export function UserListItem({ user, onClick }) {
-    return <a href="#edit-user-modal" onClick={onClick}
-        className="collection-item avatar modal-trigger waves-effect waves-light">
+    return <a href="#edit-user" onClick={onClick}
+        className="collection-item avatar waves-effect waves-light">
         <i className="material-icons circle">person</i>
         <span className="title">
             <strong>{user.name}</strong>
@@ -27,36 +28,51 @@ export function UsersPage({usersRepo}) {
     // Generate user list.
     const [userItems, setUserItems] = React.useState([]);
 
-    async function loadUsers() {
-        // TODO: Paging
-        // TODO: Handle errors
-        const users = await usersRepo.getUsers(0);
+    React.useEffect(() => {
+        async function loadUsers() {
+            // TODO: Paging
+            // TODO: Handle errors
+            const users = await usersRepo.getUsers(0);
 
-        const userItems = [];
-        for (const user of users) {
-            userItems.push(
-                <UserListItem
-                    key={user.id}
-                    user={user}
-                    onClick={() => { setUserToEdit(user); }}
-                />);
+            const userItems = [];
+            for (const user of users) {
+                userItems.push(
+                    <UserListItem
+                        key={user.id}
+                        user={user}
+                        onClick={() => { setUserToEdit(user); }}
+                    />);
+            }
+
+            setUserItems(userItems);
         }
 
-        setUserItems(userItems);
-    }
-
-    React.useEffect(() => {
         loadUsers();
     }, [usersRepo, userToEdit]);
 
     return <div className="container">
-        { userToEdit != null
-            && <UserEditModal usersRepo={usersRepo} user={{...userToEdit}}
+        <Route hash="#edit-user">
+            <UserEditModal id="edit-user" usersRepo={usersRepo}
+                user={{...userToEdit}} isNew={false}
                 onClose={() => setUserToEdit(null) }/>
-        }
-        <div className="card-panel collection with-header col s6">
-            <div className="collection-header"><h4>Users</h4></div>
-            { userItems } 
+        </Route>
+        <Route hash="#new-user">
+            <UserEditModal id="new-user" usersRepo={usersRepo}
+                user={{...userToEdit}} isNew={true}
+                onClose={() => setUserToEdit(null) }/>
+        </Route>
+        <div className="card">
+            <div id="user-collection" className="collection with-header with-fab col s6">
+                <div className="collection-header">
+                    <h4>Users</h4>
+                    <a href="#new-user" onClick={() => setUserToEdit({}) }
+                        className="btn-floating orange waves-effect">
+                        <i className="material-icons large">add</i>
+                    </a>
+                </div>
+                { userItems } 
+            </div>
         </div>
+ 
     </div>;
 }

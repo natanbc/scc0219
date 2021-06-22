@@ -1,13 +1,9 @@
 export class Product {
-    static nextId = 0;
-
     constructor(name, price, amountAvailable) {
-        this._id = Product.nextId;
+        // Id is only set when saved to repository.
         this.name = name;
         this.price = price;
         this.amountAvailable = amountAvailable;
-
-        Product.nextId++;
     }
 
     get id() {
