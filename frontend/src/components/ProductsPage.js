@@ -1,10 +1,15 @@
 import React from "react";
 
-import { ProductCard } from './ProductCard.js'
-import {ProductsFilterSidebar} from './ProductsFilterSidebar.js' 
-import './ProductsPage.css'
+import Route from './Route';
+import ProductCard from './ProductCard';
+import ProductEditModal from './ProductEditModal';
+import {ProductsFilterSidebar} from './ProductsFilterSidebar.js';
+import './ProductsPage.css';
 
 export function ProductsPage({productsRepo}) {
+    // State
+    const [productToEdit, setProductToEdit] = React.useState(null);
+
     const [productCards, setProductCards] = React.useState([]);
 
     React.useEffect(() => {
@@ -22,6 +27,7 @@ export function ProductsPage({productsRepo}) {
                             description={product.description}
                             price={product.price}
                             photo={product.photo}
+                            onEdit={ () => setProductToEdit(product) }
                         />
                     </li>);
             }
@@ -30,10 +36,15 @@ export function ProductsPage({productsRepo}) {
         }
 
         loadUsers();
-    }, [productsRepo]);
+    }, [productsRepo, productToEdit]);
 
 
     return <div className="products-page">
+        <Route hash="#edit-product">
+            <ProductEditModal id="edit-product" productsRepo={productsRepo}
+                product={{...productToEdit}} isNew={false}
+                onClose={() => setProductToEdit(null) }/>
+        </Route>
         <ul className="products-grid">
             <>
                 {productCards}

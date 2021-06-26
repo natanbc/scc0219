@@ -1,5 +1,5 @@
 import './UsersPage.scss'
-import { UserEditModal } from './UserEditModal.js'
+import UserEditModal from './UserEditModal.js'
 import React from "react";
 import Route from './Route';
 

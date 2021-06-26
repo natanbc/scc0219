@@ -4,6 +4,7 @@ export class Product {
         this.name = name;
         this.price = price;
         this.amountAvailable = amountAvailable;
+        this.amountSold = 0;
     }
 
     get id() {

@@ -16,7 +16,7 @@ function FormInput({name, type, children, value, onChange}) {
     }
 }
 
-export function UserEditModal(props) {
+export default function UserEditModal(props) {
     const [modal, setModal] = React.useState(null);
     const [user, setUser] = React.useState(props.user);
 

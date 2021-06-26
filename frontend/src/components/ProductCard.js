@@ -1,15 +1,21 @@
 function CardImage(props) {
     return <div className="card-image">
         <img src={props.imageSrc}/>
-        <a className="btn-floating halfway-fab waves-effect waves-light red">
-            <i className="material-icons">add_shopping_cart</i>
+        <a className="btn-floating halfway-fab waves-effect waves-light orange accent-4"
+            href={props.btnHref}
+            onClick={props.onClick}>
+            <i className="material-icons">{props.btnIcon}</i>
         </a>
     </div>;
 }
 
-export function ProductCard(props) {
+export default function ProductCard(props) {
     return <div className="card">
-        <CardImage imageSrc={props.photo}></CardImage> 
+        <CardImage imageSrc={props.photo}
+            btnIcon={ props.editable ? "edit" : "add_shopping_cart" }
+            btnHref={ props.editable ? "#edit-product" : "/cart" }
+            onClick={ props.editable ? props.onEdit : props.onBuy }/>
+
         <div className="card-content">
             <span className="card-title">
                 {props.name}
@@ -30,6 +36,11 @@ export function ProductCard(props) {
             <p>
                 {props.description}
             </p>
+            <a className="btn waves-effect waves-light orange accent-4 fillw"
+                href={ props.editable ? "#edit-product" : "/cart" }
+                onClick={ props.editable ? props.onEdit : props.onBuy }>
+                { props.editable ? "Edit" : "Buy" }
+            </a>
         </div>
     </div>;
 }
