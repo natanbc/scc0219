@@ -1,6 +1,6 @@
 import React from "react";
 import M from 'materialize-css';
-import { MemoryType, MemoryFormat } from '../model/MemoryInfo';
+import { MemoryType, MemoryFormat, MemoryFrequency, MemoryCapacity } from '../model/MemoryInfo';
 
 function FormInput({ name, type, children, value, onChange }) {
     if (value != null) {
@@ -114,17 +114,17 @@ export default function ProductEditModal(props) {
                 Memory Format</Select>
 
 
-            <FormInput name="memoryCapacity" type="number"
+            <Select name="memoryCapacity" values={MemoryCapacity}
                 value={product.memoryCapacity} onChange={(event) =>
                     setProduct({ ...product, memoryCapacity: event.target.value })
                 }>
-                Memory Capacity</FormInput>
+                Memory Capacity</Select>
 
-            <FormInput name="memoryFrequency" type="number"
+            <Select name="memoryFrequency" values={MemoryFrequency}
                 value={product.memoryFrequency} onChange={(event) =>
                     setProduct({ ...product, memoryFrequency: event.target.value })
                 }>
-                Memory Frequency</FormInput>
+                Memory Frequency</Select>
         </div>
         <div className="modal-footer">
             <button onClick={() => modal.close()}

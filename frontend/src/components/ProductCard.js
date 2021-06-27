@@ -9,37 +9,43 @@ function CardImage(props) {
     </div>;
 }
 
-export default function ProductCard(props) {
+export default function ProductCard({editable, product, onBuy, onEdit}) {
     return <div className="card">
-        <CardImage imageSrc={props.photo}
-            btnIcon={ props.editable ? "edit" : "add_shopping_cart" }
-            btnHref={ props.editable ? "#edit-product" : "/cart" }
-            onClick={ props.editable ? props.onEdit : props.onBuy }/>
+        <CardImage imageSrc={product.photo}
+            btnIcon={ editable ? "edit" : "add_shopping_cart" }
+            btnHref={ editable ? "#edit-product" : "/cart" }
+            onClick={ editable ? onEdit : onBuy }/>
 
         <div className="card-content">
             <span className="card-title">
-                {props.name}
-                <span className="right">{props.price}</span>
+                {product.name}
+                <span className="right">{product.price}</span>
             </span>
             <p>
                 <span className="activator grey-text text-darken-4">
                     <i className="material-icons right">more_vert</i>
-                    <span className="truncate">{props.description}</span>
+                    <span className="truncate">{product.description}</span>
                 </span>
             </p>
         </div>
         <div className="card-reveal">
             <span className="card-title">
-                {props.name}
+                {product.name}
                 <i className="material-icons right">close</i>
             </span>
+            <ul>
+                <li><b>Memory Type:</b> {product.memoryType}</li>
+                <li><b>Memory Format:</b> {product.memoryFormat}</li>
+                <li><b>Memory Capacity:</b> {product.memoryCapacity}</li>
+                <li><b>Memory Frequency:</b> {product.memoryFrequency}</li>
+            </ul>
             <p>
-                {props.description}
+                {product.description}
             </p>
             <a className="btn waves-effect waves-light orange accent-4 fillw"
-                href={ props.editable ? "#edit-product" : "/cart" }
-                onClick={ props.editable ? props.onEdit : props.onBuy }>
-                { props.editable ? "Edit" : "Buy" }
+                href={ editable ? "#edit-product" : "/cart" }
+                onClick={ editable ? onEdit : onBuy }>
+                { editable ? "Edit" : "Buy" }
             </a>
         </div>
     </div>;
