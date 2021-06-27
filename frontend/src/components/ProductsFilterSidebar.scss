@@ -2,7 +2,13 @@
 
 .side-sheet {
     border: solid $primary-color;
-    border-width: 0 0 0 thin;
+    border-width: 0 thin 0 0;
     padding: 0 16px;
     min-width: 200px;
+}
+
+.filter-group {
+    max-height: 200px;
+    overflow-y: auto;
+    position: relative;
 }

@@ -23,11 +23,9 @@ export function ProductsPage({productsRepo}) {
                 productCardsTmp.push(
                     <li key={product.id}>
                         <ProductCard
-                            name={product.name}
-                            description={product.description}
-                            price={product.price}
-                            photo={product.photo}
+                            product={product}
                             onEdit={ () => setProductToEdit(product) }
+                            editable="true"
                         />
                     </li>);
             }
@@ -45,11 +43,11 @@ export function ProductsPage({productsRepo}) {
                 product={{...productToEdit}} isNew={false}
                 onClose={() => setProductToEdit(null) }/>
         </Route>
+        <ProductsFilterSidebar/>
         <ul className="products-grid">
             <>
                 {productCards}
             </>
         </ul>
-        <ProductsFilterSidebar/>
     </div>;
 }
