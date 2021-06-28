@@ -18,3 +18,7 @@ ul:not(.browser-default).products-grid {
 .products-grid li {
     list-style-type: none;
 }
+
+i.material-icons.right {
+    cursor: pointer;
+}
