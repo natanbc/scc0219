@@ -13,10 +13,11 @@ function Checkbox(props) {
         </p>;
 }
 
-function FilterGroup({title, values}) {
+function FilterGroup({title, values, where}) {
     const checkboxes = [];
     for (const value in values) {
-        checkboxes.push(<Checkbox label={value} id={value}/>);
+        const id = `checkbox-${where}-${value}`
+        checkboxes.push(<Checkbox label={value} id={id} key={id}/>);
     }
 
     return <>
@@ -34,7 +35,7 @@ function FilterGroup({title, values}) {
 
 
 export function ProductsFilterSidebar() {
-    const filters = <>
+    const filters = (where) => <>
                 <form>
                     <h5>
                         Filters
@@ -42,27 +43,25 @@ export function ProductsFilterSidebar() {
                             <i className="material-icons">close</i>
                         </a>
                     </h5>
-                    <FilterGroup title="Memory Type" values={MemoryType}/>
-                    <FilterGroup title="Memory Format" values={MemoryFormat}/>
-                    <FilterGroup title="Memory Capacity" values={MemoryCapacity}/>
-                    <FilterGroup title="Memory Frequency" values={MemoryFrequency}/>
+                    <FilterGroup title="Memory Type"      where={where} values={MemoryType}/>
+                    <FilterGroup title="Memory Format"    where={where} values={MemoryFormat}/>
+                    <FilterGroup title="Memory Capacity"  where={where} values={MemoryCapacity}/>
+                    <FilterGroup title="Memory Frequency" where={where} values={MemoryFrequency}/>
                 </form>
         </>;
 
-    const fabRef = React.createRef();
     const sidenavRef = React.createRef();
 
     React.useEffect(() => {
-        M.FloatingActionButton.init(fabRef.current, {});
         M.Sidenav.init(sidenavRef.current, {});
     });
 
     return <>
             <aside className="side-sheet hide-on-small-only">
-                {filters}
+                {filters("desktop")}
             </aside>
             <ul ref={sidenavRef} id="mobile-filters" className="sidenav hide-on-med-and-up">
-                <li>{filters}</li>
+                <li>{filters("mobile")}</li>
             </ul>
             <div className="fixed-action-btn hide-on-med-and-up">
                 <a className="btn-floating btn-large red sidenav-trigger" data-target="mobile-filters">
