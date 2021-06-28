@@ -42,16 +42,23 @@ function LoginStatus() {
  *  NavBar / App Header
  */
 export function NavBar() {
+    const ref = React.createRef();
+
+    React.useEffect(() => M.Sidenav.init(ref.current, {}));
+
     return <>
         <nav>
             <div className="nav-wrapper">
-                <Link href="/" className="brand-logo center">Ram Ranch</Link>
-                <ul id="nav-mobile" className="left hide-on-med-and-down">
+                <Link href="#!" className="brand-logo center">Ram Ranch</Link>
+                <a href="#" data-target="mobile-nav" className="sidenav-trigger">
+                    <i className="material-icons">menu</i>
+                </a>
+                <ul className="left hide-on-med-and-down">
                     <li>
                         <Link href="/products">Products</Link>
                     </li>
                 </ul>
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
+                <ul className="right hide-on-med-and-down">
                     <li>
                         <Link href="/cart">
                             <i className="material-icons">shopping_cart</i>
@@ -71,5 +78,26 @@ export function NavBar() {
                 </ul>
             </div>
         </nav>
+        <ul ref={ref} className="sidenav" id="mobile-nav">
+            <li>
+                <Link href="/products">Products</Link>
+            </li>
+            <li>
+                <Link href="/cart">Cart
+                    <i className="material-icons right">shopping_cart</i>
+                </Link>
+            </li>
+            <li>
+                <AuthUserContext.Consumer>
+                    {context => context.user === null
+                        ?   <Link href="/signin">Login
+                                <i className="material-icons right">account_circle</i>
+                            </Link>
+                        :   <LoginItem user={context.user}
+                                logOut={() => context.setUser(null)}/>
+                    }
+                </AuthUserContext.Consumer>
+            </li>
+        </ul>
     </>;
 }
