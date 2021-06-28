@@ -26,6 +26,13 @@ $link-color: color("light-blue", "darken-1");
   @extend .btn-flat;
   padding: $button-padding;
   border: 1.5px solid color("grey", "lighten-1");
+  //center text
+  // a) horizontally
+  text-align: center;
+  // b) vertically
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 // Fix modal-footer button margin.
