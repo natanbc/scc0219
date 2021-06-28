@@ -1,7 +1,6 @@
 .products-page {
     display: flex;
     justify-content: space-between;
-    /* align-items: start; */
 }
 
 ul:not(.browser-default).products-grid {

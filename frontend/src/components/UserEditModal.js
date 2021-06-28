@@ -35,7 +35,7 @@ export default function UserEditModal(props) {
         }
     }, [modal, ref, props]);
 
-    const submit = () => {
+    const submit = (event) => {
         // TODO: Error handling
         if (props.isNew) {
             props.usersRepo.createUser(user);
@@ -43,6 +43,7 @@ export default function UserEditModal(props) {
             props.usersRepo.updateUser(user);
         }
         modal.close();
+        event.preventDefault();
     };
 
     return <form ref={ref} id={props.id} className="modal">
@@ -61,8 +62,7 @@ export default function UserEditModal(props) {
                 value={user.name} onChange={(event) =>
                     setUser({...user, name: event.target.value})
                 }>
-                Name
-            </FormInput>
+                Name</FormInput>
             <FormInput name="email" type="email"
                 value={user.email} onChange={(event) =>
                     setUser({...user, email: event.target.value})
@@ -92,7 +92,7 @@ export default function UserEditModal(props) {
                 Telefone</FormInput>
         </div>
         <div className="modal-footer">
-            <button onClick={() => modal.close()}
+            <button onClick={(event) => { modal.close(); event.preventDefault() }}
                 className="btn-outlined orange-text text-darken-4 waves-effect waves-orange">
                 Cancel
             </button>

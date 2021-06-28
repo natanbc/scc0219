@@ -25,7 +25,7 @@ function startApp(idbDatabase) {
 	reportWebVitals();
 }
 
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 // TODO: Better error handling.
 console.log("Opening db");
@@ -43,7 +43,10 @@ openRequest.onerror = event => {
 };
 
 openRequest.onupgradeneeded = event => {
-	const db = event.target.result;
+	const request = event.target;
+	const db = request.result;
+	const transaction = request.transaction;
+
 	console.log(`Upgrading from version ${event.oldVersion} to ${event.newVersion}!`);
 
 	if (event.oldVersion === 0) {
@@ -51,10 +54,6 @@ openRequest.onupgradeneeded = event => {
 			USERS_STORE, { keyPath: 'id', autoIncrement: true });
 
 		usersStore.createIndex('name', 'name', { unique: false });
-
-		for (const user of Users._users) {
-			usersStore.put(user);
-		}
 	}
 
 	if (event.oldVersion <= 1) {
@@ -67,6 +66,17 @@ openRequest.onupgradeneeded = event => {
 		for (const product of Products._products) {
 			productsStore.put(product);
 		}
+	}
+
+	if (event.oldVersion <= 2) {
+		const usersStore = transaction.objectStore(USERS_STORE);		
+		usersStore.clear();
+
+		for (const user of Users._users) {
+			usersStore.put(user);
+		}
+
+		usersStore.createIndex('email', 'email', { unique: true });
 	}
 };
 

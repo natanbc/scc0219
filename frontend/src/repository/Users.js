@@ -3,24 +3,14 @@ import {User} from '../model/User.js'
 export const USERS_STORE = "users";
 export class Users {
     static _users = [
-        new User("admin@example.com", "123", "Fulano Admin",
+        new User("admin", "admin", "Fulano Admin",
             "+00 00 00000-0000", true),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
-        new User("user@example.com", "123", "Fulano",
-            "+00 00 00000-0000", "Rua Exemplo, 1000 - São Carlos, SP"),
+        new User("user1@example.com", "123", "Fulano",
+            "+00 00 00000-0001", "Rua Exemplo, 1001 - São Carlos, SP"),
+        new User("user2@example.com", "123", "Fulano",
+            "+00 00 00000-0002", "Rua Exemplo, 1002 - São Carlos, SP"),
+        new User("user3@example.com", "123", "Fulano",
+            "+00 00 00000-0003", "Rua Exemplo, 1003 - São Carlos, SP"),
     ];
 
     constructor(idbDatabase) {
@@ -37,6 +27,18 @@ export class Users {
                 user.id = event.target.result;
                 resolve(user);
             };
+            idbRequest.onerror = event => reject(event.target.error);
+        });
+    }
+
+    async getByEmail(email) {
+        return new Promise((resolve, reject) => {
+            const idbTransaction = this._idbDatabase.transaction(USERS_STORE, "readonly");
+            
+            const usersStore = idbTransaction.objectStore(USERS_STORE);
+            const emailIndex = usersStore.index("email");
+            const idbRequest = emailIndex.get(email);
+            idbRequest.onsuccess = event => resolve(event.target.result);
             idbRequest.onerror = event => reject(event.target.error);
         });
     }

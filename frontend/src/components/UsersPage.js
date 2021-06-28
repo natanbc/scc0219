@@ -2,9 +2,11 @@ import './UsersPage.scss'
 import UserEditModal from './UserEditModal.js'
 import React from "react";
 import Route from './Route';
+import Link from './Link';
+import { AuthUserContext } from '../Context';
 
 export function UserListItem({ user, onClick }) {
-    return <a href="#edit-user" onClick={onClick}
+    return <Link href="#edit-user" onClick={onClick}
         className="collection-item avatar waves-effect waves-light">
         <i className="material-icons circle">person</i>
         <span className="title">
@@ -17,7 +19,7 @@ export function UserListItem({ user, onClick }) {
             <br/>
             {user.address}
         </p>
-    </a>;
+    </Link>;
 }
 
 // TODO: Add users.
@@ -27,6 +29,8 @@ export function UsersPage({usersRepo}) {
 
     // Generate user list.
     const [userItems, setUserItems] = React.useState([]);
+
+    const authUserCtx = React.useContext(AuthUserContext);
 
     React.useEffect(() => {
         async function loadUsers() {
@@ -50,6 +54,10 @@ export function UsersPage({usersRepo}) {
         loadUsers();
     }, [usersRepo, userToEdit]);
 
+    if (authUserCtx.user == null || !authUserCtx.user.isAdmin) {
+        return <h2 className="center-align">Unauthorized</h2>;
+    }
+
     return <div className="container">
         <Route hash="#edit-user">
             <UserEditModal id="edit-user" usersRepo={usersRepo}
@@ -65,10 +73,10 @@ export function UsersPage({usersRepo}) {
             <div id="user-collection" className="collection with-header with-fab col s6">
                 <div className="collection-header">
                     <h4>Users</h4>
-                    <a href="#new-user" onClick={() => setUserToEdit({}) }
+                    <Link href="#new-user" onClick={() => setUserToEdit({}) }
                         className="btn-floating orange waves-effect">
                         <i className="material-icons large">add</i>
-                    </a>
+                    </Link>
                 </div>
                 { userItems } 
             </div>

@@ -34,6 +34,11 @@ $link-color: color("light-blue", "darken-1");
   margin-right: 8px;
 }
 
+// Also allow buttons on navbar.
+nav ul btn {
+  @extend a;
+}
+
 .fillw {
   width: 100%;
 }

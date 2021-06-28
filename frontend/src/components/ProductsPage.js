@@ -1,5 +1,6 @@
 import React from "react";
 
+import { AuthUserContext } from '../Context';
 import Route from './Route';
 import ProductCard from './ProductCard';
 import ProductEditModal from './ProductEditModal';
@@ -11,6 +12,8 @@ export function ProductsPage({productsRepo}) {
     const [productToEdit, setProductToEdit] = React.useState(null);
 
     const [productCards, setProductCards] = React.useState([]);
+
+    const authUserCtx = React.useContext(AuthUserContext);
 
     React.useEffect(() => {
         async function loadUsers() {
@@ -25,7 +28,7 @@ export function ProductsPage({productsRepo}) {
                         <ProductCard
                             product={product}
                             onEdit={ () => setProductToEdit(product) }
-                            editable="true"
+                            editable={ authUserCtx.user != null && authUserCtx.user.isAdmin }
                         />
                     </li>);
             }
