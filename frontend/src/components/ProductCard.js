@@ -1,6 +1,6 @@
 function CardImage(props) {
     return <div className="card-image">
-        <img src={props.imageSrc} className="responsive-img"/>
+        <img src={props.imageSrc} className="responsive-img" alt=""/>
         <a className="btn-floating halfway-fab waves-effect waves-light orange accent-4"
             href={props.btnHref}
             onClick={props.onClick}>

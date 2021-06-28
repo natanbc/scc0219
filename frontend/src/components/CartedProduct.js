@@ -1,6 +1,6 @@
 function CartedProductImage(props) {
     return <div style={{ marginTop: '0.75rem', maxWidth: '22rem' }}>
-        <img src={props.imageSrc} style={{ maxWidth: '100%' }}/>
+        <img src={props.imageSrc} style={{ maxWidth: '100%' }} alt=""/>
     </div>;
 }
 

@@ -37,7 +37,7 @@ export function ProductsPage({productsRepo}) {
         }
 
         loadUsers();
-    }, [productsRepo, productToEdit]);
+    });
 
 
     return <div className="products-page">
