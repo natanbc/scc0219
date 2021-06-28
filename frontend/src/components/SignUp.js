@@ -1,6 +1,6 @@
 export function SignUp() {
     return <div>
-        <form className="card-panel col s3 offset-s1" action="/gate/signup" method="POST">
+        <form className="card-panel" action="/gate/signup" method="POST">
             <div className="row">
                 <div className="input-field col s12">
                     <i className="material-icons prefix">email</i>

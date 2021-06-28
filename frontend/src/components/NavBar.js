@@ -49,7 +49,7 @@ export function NavBar() {
     return <>
         <nav>
             <div className="nav-wrapper">
-                <Link href="#!" className="brand-logo center">Ram Ranch</Link>
+                <Link href="/" className="brand-logo center">Ram Ranch</Link>
                 <a href="#" data-target="mobile-nav" className="sidenav-trigger">
                     <i className="material-icons">menu</i>
                 </a>
