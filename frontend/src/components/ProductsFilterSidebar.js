@@ -1,4 +1,5 @@
 import React from "react";
+import M from 'materialize-css';
 import { MemoryCapacity, MemoryFormat, MemoryFrequency, MemoryType } from '../model/MemoryInfo';
 
 import './ProductsFilterSidebar.scss'
@@ -33,18 +34,40 @@ function FilterGroup({title, values}) {
 
 
 export function ProductsFilterSidebar() {
-    return <aside className="side-sheet">
-            <form>
-                <h5>
-                    Filters
-                    <a className="waves-effect waves-light btn-flat right">
-                        <i className="material-icons">close</i>
-                    </a>
-                </h5>
-                <FilterGroup title="Memory Type" values={MemoryType}/>
-                <FilterGroup title="Memory Format" values={MemoryFormat}/>
-                <FilterGroup title="Memory Capacity" values={MemoryCapacity}/>
-                <FilterGroup title="Memory Frequency" values={MemoryFrequency}/>
-            </form>
-        </aside>;
+    const filters = <>
+                <form>
+                    <h5>
+                        Filters
+                        <a className="waves-effect waves-light btn-flat right">
+                            <i className="material-icons">close</i>
+                        </a>
+                    </h5>
+                    <FilterGroup title="Memory Type" values={MemoryType}/>
+                    <FilterGroup title="Memory Format" values={MemoryFormat}/>
+                    <FilterGroup title="Memory Capacity" values={MemoryCapacity}/>
+                    <FilterGroup title="Memory Frequency" values={MemoryFrequency}/>
+                </form>
+        </>;
+
+    const fabRef = React.createRef();
+    const sidenavRef = React.createRef();
+
+    React.useEffect(() => {
+        M.FloatingActionButton.init(fabRef.current, {});
+        M.Sidenav.init(sidenavRef.current, {});
+    });
+
+    return <>
+            <aside className="side-sheet hide-on-small-only">
+                {filters}
+            </aside>
+            <ul ref={sidenavRef} id="mobile-filters" className="sidenav hide-on-med-and-up">
+                <li>{filters}</li>
+            </ul>
+            <div className="fixed-action-btn hide-on-med-and-up">
+                <a className="btn-floating btn-large red sidenav-trigger" data-target="mobile-filters">
+                    <i className="large material-icons">mode_edit</i>
+                </a>
+            </div>
+        </>;
 }
