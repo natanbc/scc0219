@@ -39,9 +39,6 @@ export function ProductsFilterSidebar() {
                 <form>
                     <h5>
                         Filters
-                        <a className="waves-effect waves-light btn-flat right">
-                            <i className="material-icons">close</i>
-                        </a>
                     </h5>
                     <FilterGroup title="Memory Type"      where={where} values={MemoryType}/>
                     <FilterGroup title="Memory Format"    where={where} values={MemoryFormat}/>
@@ -64,7 +61,7 @@ export function ProductsFilterSidebar() {
                 <li>{filters("mobile")}</li>
             </ul>
             <div className="fixed-action-btn hide-on-med-and-up">
-                <a className="btn-floating btn-large red sidenav-trigger" data-target="mobile-filters">
+                <a href="#" className="btn-floating btn-large red sidenav-trigger" data-target="mobile-filters">
                     <i className="large material-icons">filter_list</i>
                 </a>
             </div>
