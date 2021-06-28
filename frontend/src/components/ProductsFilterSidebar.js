@@ -66,7 +66,7 @@ export function ProductsFilterSidebar() {
             </ul>
             <div className="fixed-action-btn hide-on-med-and-up">
                 <a className="btn-floating btn-large red sidenav-trigger" data-target="mobile-filters">
-                    <i className="large material-icons">mode_edit</i>
+                    <i className="large material-icons">filter_list</i>
                 </a>
             </div>
         </>;
