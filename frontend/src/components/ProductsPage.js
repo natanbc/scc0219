@@ -15,30 +15,29 @@ export function ProductsPage({productsRepo}) {
 
     const authUserCtx = React.useContext(AuthUserContext);
 
-    React.useEffect(() => {
-        async function loadUsers() {
-            // TODO: Paging
-            // TODO: Handle errors
-            const products = await productsRepo.findByIdRange(0);
+    const fetchProducts = React.useCallback(async () => {
+        // TODO: Paging
+        // TODO: Handle errors
+        const products = await productsRepo.findByIdRange(0);
 
-            const productCardsTmp = [];
-            for (const product of products) {
-                productCardsTmp.push(
-                    <li key={product.id}>
-                        <ProductCard
-                            product={product}
-                            onEdit={ () => setProductToEdit(product) }
-                            editable={ authUserCtx.user != null && authUserCtx.user.isAdmin }
-                        />
-                    </li>);
-            }
-
-            setProductCards(productCardsTmp);
+        const productCardsTmp = [];
+        for (const product of products) {
+            productCardsTmp.push(
+                <li key={product.id}>
+                    <ProductCard
+                        product={product}
+                        onEdit={ () => setProductToEdit(product) }
+                        editable={ authUserCtx.user != null && authUserCtx.user.isAdmin }
+                    />
+                </li>);
         }
 
-        loadUsers();
-    }, [productsRepo, productToEdit]);
+        setProductCards(productCardsTmp);
+    }, [authUserCtx.user, productsRepo]);
 
+    React.useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
 
     return <div className="products-page">
         <Route hash="#edit-product">
