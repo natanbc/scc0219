@@ -31,10 +31,10 @@ function App({usersRepo, productsRepo}) {
 					<UsersPage usersRepo={usersRepo}></UsersPage>
 				</Route>
 				<Route path="/signup">
-					<SignUpPage></SignUpPage>
+					<SignUpPage usersRepo={usersRepo}></SignUpPage>
 				</Route>
 				<Route path="/signin">
-					<SignInPage></SignInPage>
+					<SignInPage usersRepo={usersRepo}></SignInPage>
 				</Route>
 				<Route path="/cart">
 					<Cart></Cart>

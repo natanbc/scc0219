@@ -2,23 +2,7 @@ import React from 'react';
 
 import Link from './Link';
 import { AuthUserContext } from '../Context';
-
-function FormInput({name, type, children, icon, value, onChange}) {
-    if (value != null) {
-        return <div className="input-field">
-            { icon !== undefined && <i className="material-icons prefix">{icon}</i> }
-            <input id={name} name={name} type={type}
-                value={value} onChange={onChange}/>
-            <label htmlFor="name" className="active">{children}</label>
-        </div>;
-    } else {
-        return <div className="input-field">
-            { icon !== undefined && <i className="material-icons prefix">{icon}</i> }
-            <input id={name} name={name} type={type}/>
-            <label htmlFor="name">{children}</label>
-        </div>;
-    }
-}
+import { FormInput } from './Materialize';
 
 async function HandleLogin(event, usersRepo, authUserCtx) {
     event.preventDefault();

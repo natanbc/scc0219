@@ -1,20 +1,7 @@
 import React from "react";
 import M from 'materialize-css';
 
-function FormInput({name, type, children, value, onChange}) {
-    if (value != null) {
-        return <div className="input-field">
-            <input id={name} name={name} type={type}
-                value={value} onChange={onChange}/>
-            <label htmlFor="name" className="active">{children}</label>
-        </div>;
-    } else {
-        return <div className="input-field">
-            <input id={name} name={name} type={type}/>
-            <label htmlFor="name">{children}</label>
-        </div>;
-    }
-}
+import { FormInput } from './Materialize';
 
 export default function UserEditModal(props) {
     const [modal, setModal] = React.useState(null);

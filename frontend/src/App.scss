@@ -25,25 +25,14 @@ $link-color: color("light-blue", "darken-1");
 .btn-outlined {
   @extend .btn-flat;
   padding: $button-padding;
-  border: 1.5px solid color("grey", "lighten-1");
-  //center text
-  // a) horizontally
+  outline: 1.5px solid;
   text-align: center;
-  // b) vertically
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 // Fix modal-footer button margin.
 .modal .modal-footer .btn,
 .modal .modal-footer .btn-flat {
   margin-right: 8px;
-}
-
-// Also allow buttons on navbar.
-nav ul btn {
-  @extend a;
 }
 
 .fillw {

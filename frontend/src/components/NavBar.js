@@ -5,37 +5,22 @@ import Link from './Link';
 import { AuthUserContext } from '../Context';
 import './NavBar.css';
 
-function LoginItem({user, logOut}) {
+function LoginItem({id, user, logOut}) {
 
     const ref = React.createRef();
     
     React.useEffect(() => M.Dropdown.init(ref.current, {}));
 
     return <>
-        <ul id="user-dropdown" className="dropdown-content">
-            { user.isAdmin && <li><a href="/users">Manage Users</a></li> }
+        <ul id={id} className="dropdown-content">
+            { user.isAdmin && <li><Link href="/users">Manage Users</Link></li> }
             <li><Link href="/" onClick={logOut}>Log Out</Link></li>
         </ul>
-        <btn ref={ref} className="dropdown-trigger" data-target="user-dropdown">
+        <a ref={ref} role="button" className="dropdown-trigger" data-target={id}>
             {user.name}
             <i className="material-icons right">account_circle</i>
-        </btn>
+        </a>
     </>;
-}
-
-function LoginStatus() {
-    return <AuthUserContext.Consumer>
-            {context => {
-                if (context.user === null) {
-                    return <Link href="/signin">
-                        Login
-                        <i className="material-icons right">account_circle</i>
-                    </Link>
-                } else {
-                    return <LoginItem user={context.user} logOut={() => context.setUser(null)}/>
-                }
-            }}
-        </AuthUserContext.Consumer>;
 }
 
 /**
@@ -70,7 +55,7 @@ export function NavBar() {
                                 ?   <Link href="/signin">Login
                                         <i className="material-icons right">account_circle</i>
                                     </Link>
-                                :   <LoginItem user={context.user}
+                                :   <LoginItem id="user-dropdown1" user={context.user}
                                         logOut={() => context.setUser(null)}/>
                             }
                         </AuthUserContext.Consumer>
@@ -93,7 +78,7 @@ export function NavBar() {
                         ?   <Link href="/signin">Login
                                 <i className="material-icons right">account_circle</i>
                             </Link>
-                        :   <LoginItem user={context.user}
+                        :   <LoginItem id="user-dropdown2" user={context.user}
                                 logOut={() => context.setUser(null)}/>
                     }
                 </AuthUserContext.Consumer>
