@@ -1,35 +1,53 @@
-export function SignUp() {
-    return <div>
-        <form className="card-panel" action="/gate/signup" method="POST">
-            <div className="row">
-                <div className="input-field col s12">
-                    <i className="material-icons prefix">email</i>
-                    <input id="email" type="email" className="validate" />
-                    <label htmlFor="email">Email</label>
-                </div>
+import React from 'react';
+
+import { AuthUserContext } from '../Context';
+import Link from './Link';
+
+import { FormInput } from './Materialize';
+
+async function HandleSignUp(event, usersRepo, authUserCtx) {
+    event.preventDefault();
+
+    const newUser = await usersRepo.createUser({
+        name: event.target.name.value,
+        email: event.target.email.value,
+        password: event.target.password.value,
+        address: event.target.address.value,
+        phone: event.target.phone.value,
+    });
+
+    authUserCtx.setUser(newUser);
+}
+
+export function SignUp({usersRepo}) {
+
+    const authUserCtx = React.useContext(AuthUserContext);
+
+    return <form className="card col s12"
+        onSubmit={(e) => HandleSignUp(e, usersRepo, authUserCtx)}>
+
+            <div className="card-content">
+                <FormInput name="name" type="text" icon="person">
+                    Name</FormInput>
+                <FormInput name="email" type="email" icon="email">
+                    Email</FormInput>
+                <FormInput name="password" type="password" icon="password">
+                    Password</FormInput>
+                <FormInput name="confirm-password" type="password" icon="password">
+                    Confirm Password</FormInput>
+                <FormInput name="address" type="text" icon="place">
+                    Endereço</FormInput>
+                <FormInput name="phone" type="tel" icon="phone">
+                    Telefone</FormInput>
             </div>
-            <div className="row">
-                <div className="input-field col s12">
-                    <i className="material-icons prefix">password</i>
-                    <input id="password" type="password" className="validate" />
-                    <label htmlFor="password">Password</label>
-                </div>
+            <div className="card-action row" style={{ marginBottom: 0 }}>
+                <Link href="/signin" className="btn-outlined waves-effect col m5">
+                    SIGN IN
+                </Link>
+                <button className="btn waves-effect waves-light right" type="submit" name="action">
+                    SIGN UP
+                    <i className="material-icons right">login</i>
+                </button>
             </div>
-            <div className="row">
-                <div className="input-field col s12">
-                    <i className="material-icons prefix">password</i>
-                    <input id="confirm-password" type="password" className="validate" />
-                    <label htmlFor="password">Confirm Password</label>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col s12">
-                    <button className="btn waves-effect waves-light right" type="submit" name="action">
-                        SIGN UP
-                        <i className="material-icons right">login</i>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>;
+        </form>;
 }
