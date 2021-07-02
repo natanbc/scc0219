@@ -65,6 +65,20 @@ RAM Ranch é uma loja especializada em vender módulos de memória RAM dos mais 
 
 ## Comentários sobre o código
 
+O código do frontend está localizado na pasta frontend. Foi 
+utilizado a api IndexedDB do browser para a persistencia dos usuários
+e produtos. Existe uma conta de administrador com email *admin* e senha
+*admin*, mas outras contas podem ser cadastradas. Não foi implementada
+ainda a funcionalidade de filtros, devido a falta de suporte da IndexedDB
+para queries complexas.
+
+Estrutura:
+- frontend/public/index.html - A página que contém o React.
+- frontend/src/index.js - O script principal, inicializa a DB e transfere controle ao React.
+- frontend/src/App.scss - Contém o tema do materialize, bugfixes ao materialize e estilos novos usados em todo app.
+- frontend/src/components - Contém todos componentes React.
+- frontend/src/model - Contém as estruturas que representam os dados da aplicação.
+- frontend/src/repository - Contém as classe que permitem acesso aos modelos.
 
 ## Plano de teste
 
@@ -74,11 +88,22 @@ Manualmente checar utilizando um navegador que:
 
 ## Procedimento de compilação
 
+Para compilar o projeto são necessários o npm e o yarn.
+- [Instale o Node](https://nodejs.org/en/download/)
+- [Instale o NPM](https://docs.npmjs.com/cli/v7/configuring-npm/install)
+- [Instale o Yarn](https://yarnpkg.com/getting-started/install)
+
+Para rodar o servidor integrado:
+
 ```
-firefox index.html
+cd frontend
+yarn start
+firefox localhost:3000
 ```
 
 ## Problemas enfrentados
+
+O materialize não é atualizado desde de 2018, o que causou dificuldades de resolver versões de dependencias, e não integra bem com o react devido ao uso de jQuery.
 
 ## Comentários
 
