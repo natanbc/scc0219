@@ -1,11 +1,14 @@
 import React from "react";
 import M from 'materialize-css';
 
+import { RouteContext } from '../Context';
 import { FormInput } from './Materialize';
 
 export default function UserEditModal(props) {
     const [modal, setModal] = React.useState(null);
     const [user, setUser] = React.useState(props.user);
+
+    const routeCtx = React.useContext(RouteContext);
 
     const ref = React.createRef();
     React.useEffect(() => {
@@ -15,6 +18,7 @@ export default function UserEditModal(props) {
             modal.close = function(trigger) {
                 baseClose.apply(this, trigger);
                 window.location.hash = "";
+                routeCtx.setLocation({...window.location});
                 props.onClose();
             }
             modal.open();

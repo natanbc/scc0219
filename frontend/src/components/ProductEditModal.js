@@ -2,12 +2,14 @@ import React from "react";
 import M from 'materialize-css';
 import { MemoryType, MemoryFormat, MemoryFrequency, MemoryCapacity } from '../model/MemoryInfo';
 
+import { RouteContext } from '../Context';
 import { FormInput, Select, TextArea } from './Materialize';
 
 export default function ProductEditModal(props) {
     const [modal, setModal] = React.useState(null);
     const [product, setProduct] = React.useState(props.product);
 
+    const routeCtx = React.useContext(RouteContext);
     const modalRef = React.createRef();
     React.useEffect(() => {
         if (modal === null) {
@@ -16,6 +18,7 @@ export default function ProductEditModal(props) {
             modal.close = function(trigger) {
                 baseClose.apply(this, trigger);
                 window.location.hash = "";
+                routeCtx.setLocation({...window.location});
                 props.onClose();
             }
             modal.open();
