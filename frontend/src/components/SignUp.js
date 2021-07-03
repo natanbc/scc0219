@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { AuthUserContext } from '../Context';
+import { AuthUserContext, RouteContext } from '../Context';
 import Link from './Link';
 
 import { FormInput } from './Materialize';
 
-async function HandleSignUp(event, usersRepo, authUserCtx) {
+async function HandleSignUp(event, usersRepo, authUserCtx, routeCtx) {
     event.preventDefault();
 
     const newUser = await usersRepo.createUser({
@@ -17,14 +17,20 @@ async function HandleSignUp(event, usersRepo, authUserCtx) {
     });
 
     authUserCtx.setUser(newUser);
+
+    const location = routeCtx.location;
+    location.pathname = "/";
+    routeCtx.setLocation({...location});
+    alert("Success");
 }
 
 export function SignUp({usersRepo}) {
 
     const authUserCtx = React.useContext(AuthUserContext);
+    const routeCtx = React.useContext(RouteContext);
 
     return <form className="card col s12"
-        onSubmit={(e) => HandleSignUp(e, usersRepo, authUserCtx)}>
+        onSubmit={(e) => HandleSignUp(e, usersRepo, authUserCtx, routeCtx)}>
 
             <div className="card-content">
                 <FormInput name="name" type="text" icon="person">

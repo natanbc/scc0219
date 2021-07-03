@@ -14,6 +14,9 @@ async function HandleLogin(event, usersRepo, authUserCtx) {
     
     if (user !== undefined && user.password === password) {
         authUserCtx.setUser(user);
+        event.target.email.value = "";
+        event.target.password.value = "";
+        alert("Success");
     } else {
         alert("Invalid email or password");
     }
