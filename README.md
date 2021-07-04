@@ -97,6 +97,7 @@ Para rodar o servidor integrado:
 
 ```
 cd frontend
+yarn
 yarn start
 firefox localhost:3000
 ```
