@@ -102,6 +102,12 @@ yarn start
 firefox localhost:3000
 ```
 
+Para rodar o servidor de backend
+
+```
+docker-compose up --build
+```
+
 ## Problemas enfrentados
 
 O materialize não é atualizado desde de 2018, o que causou dificuldades de resolver versões de dependencias, e não integra bem com o react devido ao uso de jQuery.

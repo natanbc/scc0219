@@ -5,8 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-	"build": "npx tsc --project ./",
-	"prestart": "npm run build",
+    "build": "npx tsc --project ./",
+    "prestart": "npm run build",
     "start": "node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/natanbc/scc0219#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongodb": "^4.0.0",
+    "neverthrow": "^4.2.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
