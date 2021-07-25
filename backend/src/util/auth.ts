@@ -1,7 +1,7 @@
 import { createSecretKey } from "crypto"
 import { SignJWT } from "jose/jwt/sign"
 import { jwtVerify } from "jose/jwt/verify"
-import { jwtSecret } from "./env.js";
+import { jwtSecret } from "../env.js";
 
 const secretKey = createSecretKey(Buffer.from(jwtSecret, "hex"))
 
