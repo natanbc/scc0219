@@ -18,29 +18,29 @@ function App({usersRepo, productsRepo}) {
 	return <AuthUserContext.Provider value={{ user: authUser, setUser: setAuthUser }}>
 		<RouteContext.Provider value={{ location: location, setLocation: setLocation }}>
 			<header>
-				<NavBar></NavBar>
+				<NavBar/>
 			</header>
 			<main>
 				<Route path="/">
-					<HomePage usersRepo={usersRepo}></HomePage>
+					<HomePage/>
 				</Route>
 				<Route path="/products">
-					<ProductsPage productsRepo={productsRepo}></ProductsPage>
+					<ProductsPage productsRepo={productsRepo}/>
 				</Route>
 				<Route path="/users">
-					<UsersPage usersRepo={usersRepo}></UsersPage>
+					<UsersPage usersRepo={usersRepo}/>
 				</Route>
 				<Route path="/signup">
-					<SignUpPage usersRepo={usersRepo}></SignUpPage>
+					<SignUpPage/>
 				</Route>
 				<Route path="/signin">
-					<SignInPage usersRepo={usersRepo}></SignInPage>
+					<SignInPage/>
 				</Route>
 				<Route path="/cart">
-					<Cart></Cart>
+					<Cart/>
 				</Route>
 			</main>
-			<Footer></Footer>
+			<Footer/>
 		</RouteContext.Provider>
 	</AuthUserContext.Provider>;
 }

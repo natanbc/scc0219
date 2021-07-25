@@ -4,33 +4,37 @@ import { AuthUserContext, RouteContext } from '../Context';
 import Link from './Link';
 
 import { FormInput } from './Materialize';
+import { signUp } from "../util/backend";
 
-async function HandleSignUp(event, usersRepo, authUserCtx, routeCtx) {
+async function HandleSignUp(event, authUserCtx, routeCtx) {
     event.preventDefault();
 
-    const newUser = await usersRepo.createUser({
-        name: event.target.name.value,
-        email: event.target.email.value,
-        password: event.target.password.value,
-        address: event.target.address.value,
-        phone: event.target.phone.value,
-    });
+    try {
+        await signUp(
+            authUserCtx,
+            event.target.name.value,
+            event.target.email.value,
+            event.target.password.value,
+            event.target.address.value,
+            event.target.phone.value
+        );
 
-    authUserCtx.setUser(newUser);
-
-    const location = routeCtx.location;
-    location.pathname = "/";
-    routeCtx.setLocation({...location});
-    alert("Success");
+        const location = routeCtx.location;
+        location.pathname = "/";
+        routeCtx.setLocation({...location});
+        alert("Success");
+    } catch(e) {
+        alert("Account already exists");
+    }
 }
 
-export function SignUp({usersRepo}) {
+export function SignUp() {
 
     const authUserCtx = React.useContext(AuthUserContext);
     const routeCtx = React.useContext(RouteContext);
 
     return <form className="card col s12"
-        onSubmit={(e) => HandleSignUp(e, usersRepo, authUserCtx, routeCtx)}>
+        onSubmit={(e) => HandleSignUp(e, authUserCtx, routeCtx)}>
 
             <div className="card-content">
                 <FormInput name="name" type="text" icon="person">

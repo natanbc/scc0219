@@ -3,29 +3,25 @@ import React from 'react';
 import Link from './Link';
 import { AuthUserContext } from '../Context';
 import { FormInput } from './Materialize';
+import {login} from "../util/backend";
 
-async function HandleLogin(event, usersRepo, authUserCtx) {
+async function HandleLogin(event, authUserCtx) {
     event.preventDefault();
 
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-
-    const user = await usersRepo.getByEmail(email);
-    
-    if (user !== undefined && user.password === password) {
-        authUserCtx.setUser(user);
+    try {
+        await login(authUserCtx, event.target.email.value, event.target.password.value);
         event.target.email.value = "";
         event.target.password.value = "";
         alert("Success");
-    } else {
+    } catch(e) {
         alert("Invalid email or password");
     }
 }
 
-export function SignIn({usersRepo}) {
+export function SignIn() {
     const authUserCtx = React.useContext(AuthUserContext);
 
-    return <form className="card col s12" onSubmit={(e) => HandleLogin(e, usersRepo, authUserCtx)}>
+    return <form className="card col s12" onSubmit={(e) => HandleLogin(e, authUserCtx)}>
         <div className="card-content">
             <FormInput name="email" type="text" icon="email">
                 Email</FormInput>
