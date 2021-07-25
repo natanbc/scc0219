@@ -1,9 +1,26 @@
-import { Db } from 'mongodb'
+import express from 'express';
+import mongo from 'mongodb'
+
+import * as repositories from './repositories.js';
 
 export default class Server {
-	public readonly database: Db;
+	public readonly database: mongo.Db;
+	public readonly usersRepository: repositories.Users;
 
-	public constructor(database: Db) {
+	public static fromApp(app: express.Application): Server | null {
+		const server = app.get('server');	
+
+		if (server != undefined && server instanceof Server) {
+			return server;
+		}
+
+		console.error('Server object was missing from express app!');
+		console.trace();
+		return null;
+	}
+
+	public constructor(database: mongo.Db) {
 		this.database = database;
+		this.usersRepository = new repositories.Users(database);
 	}
 }

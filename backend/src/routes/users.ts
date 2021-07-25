@@ -3,6 +3,6 @@ import * as controllers from '../controllers.js';
 
 const users = express.Router();
 
-users.get('/', controllers.users.get) 
+users.get('/:userId', controllers.users.get) 
 
 export default users;

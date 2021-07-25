@@ -39,7 +39,7 @@ async function run() {
 			console.log(`RAM Ranch API listening at http://localhost:${port}`);
 		});
 	} finally {
-		await client.close();
+		//await client.close();
 	}
 }
 
