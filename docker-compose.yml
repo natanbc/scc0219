@@ -39,17 +39,21 @@ services:
       - 3001:3001
     environment:
       NODE_ENV: development
+      API_LISTEN_PORT: 3001
+      MONGO_HOSTS: db
+      MONGO_USER: root
+      MONGO_PASSWORD: dev
     networks:
       - db
       - outbound
 
-  # ramranch-web:
-  #   build: ./frontend
-  #   image: ramranch-web:dev
-  #   ports:
-  #     - 3002:3002
-  #   networks:
-  #     - outbound
+  ramranch-web:
+    build: ./frontend
+    image: ramranch-web:dev
+    ports:
+      - 3002:80
+    networks:
+      - outbound
 
 networks:
   db:
