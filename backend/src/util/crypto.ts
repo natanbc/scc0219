@@ -2,7 +2,7 @@ import { randomBytes, scryptSync } from "crypto"
 
 export function hashPassword(password: string): string {
     const salt = randomBytes(32).toString("hex");
-    const hash = scryptSync(password, salt, 64);
+    const hash = scryptSync(password, salt, 64).toString("hex");
     return `${salt}:${hash}`;
 }
 

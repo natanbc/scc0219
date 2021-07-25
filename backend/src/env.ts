@@ -17,3 +17,5 @@ export const mongoUser = env('MONGO_USER');
 export const mongoPassword = env("MONGO_PASSWORD");
 
 export const jwtSecret = env("JWT_SECRET_KEY");
+
+export const development = (process.env["NODE_ENV"] === "development" || fallback["DEVELOPMENT"]);

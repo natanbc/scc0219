@@ -19,11 +19,18 @@ export function request(path, options) {
     return fetch(prefix ? prefix + path : path, options);
 }
 
+function jsonBody(body, opts) {
+    if(!opts) opts = {};
+    opts.body = JSON.stringify(body);
+    if(!opts.headers) opts.headers = {};
+    opts.headers["Content-Type"] = "application/json";
+    return opts;
+}
+
 async function doAuth(context, path, body) {
-    const resp = await request(path, {
-        method: "POST",
-        body: JSON.stringify(body)
-    });
+    const resp = await request(path, jsonBody(body, {
+        method: "POST"
+    }));
     let user;
     if(!resp.ok || resp.status !== 200 || !(user = await resp.json()).token) {
         context.setUser(null);
@@ -72,17 +79,15 @@ async function doAuthenticatedRequest(path, init) {
 }
 
 export function createProduct(data): Promise<void> {
-    return doAuthenticatedRequest("/api/products", {
+    return doAuthenticatedRequest("/api/products", jsonBody(data, {
         method: "POST",
-        body: JSON.stringify(data)
-    }).then(r => r.json());
+    })).then(r => r.json());
 }
 
 export function updateProduct(id, data): Promise<void> {
-    return doAuthenticatedRequest("/api/products/" + id, {
+    return doAuthenticatedRequest("/api/products/" + id, jsonBody(data, {
         method: "PUT",
-        body: JSON.stringify(data)
-    }).then(r => r.json());
+    })).then(r => r.json());
 }
 
 export function getCart(): Promise<Object[]> {
@@ -90,10 +95,9 @@ export function getCart(): Promise<Object[]> {
 }
 
 export function addToCart(id): Promise<void> {
-    return doAuthenticatedRequest("/api/cart", {
+    return doAuthenticatedRequest("/api/cart", jsonBody({ id }, {
         method: "POST",
-        body: JSON.stringify({ id })
-    })
+    }))
 }
 
 export function removeFromCart(id): Promise<void> {

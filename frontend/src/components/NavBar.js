@@ -4,6 +4,7 @@ import M from 'materialize-css';
 import Link from './Link';
 import { AuthUserContext } from '../Context';
 import './NavBar.css';
+import {logout} from "../util/backend";
 
 function LoginItem({id, user, logOut}) {
 
@@ -56,7 +57,7 @@ export function NavBar() {
                                         <i className="material-icons right">account_circle</i>
                                     </Link>
                                 :   <LoginItem id="user-dropdown1" user={context.user}
-                                        logOut={() => context.setUser(null)}/>
+                                        logOut={() => logout(context)}/>
                             }
                         </AuthUserContext.Consumer>
                     </li>
@@ -79,7 +80,7 @@ export function NavBar() {
                                 <i className="material-icons right">account_circle</i>
                             </Link>
                         :   <LoginItem id="user-dropdown2" user={context.user}
-                                logOut={() => context.setUser(null)}/>
+                                logOut={() => logout(context)}/>
                     }
                 </AuthUserContext.Consumer>
             </li>

@@ -1,6 +1,6 @@
 import express from "express";
 import Server from "../server.js";
-import {verifyPassword} from "../util/crypto.js";
+import {hashPassword, verifyPassword} from "../util/crypto.js";
 import {createToken, verifyToken} from "../util/auth.js";
 
 export function login(req: express.Request, res: express.Response): void {
@@ -19,14 +19,25 @@ export function login(req: express.Request, res: express.Response): void {
                 res.status(401).json({ message: "Incorrect email or password" });
                 return;
             }
-            if(!verifyPassword(user["password"], password)) {
+            if(!verifyPassword(password, user["password"])) {
                 res.status(401).json({ message: "Incorrect email or password" });
                 return;
             }
-            user["token"] = createToken(email)
-            res.status(200).json(user);
+            return createToken(email).then(token => {
+                user["token"] = token;
+                res.status(200).json({
+                    email,
+                    token,
+                    name: user["name"],
+                    address: user["address"],
+                    phone: user["phone"]
+                });
+            });
         })
-        .catch(() => res.status(500).json({ message: "Internal server error" }));
+        .catch(e => {
+            console.log("Login failure", e);
+            res.status(500).json({ message: "Internal server error" });
+        });
 }
 
 export function signup(req: express.Request, res: express.Response): void {
@@ -37,7 +48,7 @@ export function signup(req: express.Request, res: express.Response): void {
     }
 
     const { name, email, password, address, phone } = req.body;
-    const toInsert = { name, email, password, address, phone, isAdmin: false };
+    const toInsert = { name, email, password: hashPassword(password), address, phone, isAdmin: false };
 
     server.database.collection("users")
         .insertOne(toInsert)
@@ -46,9 +57,15 @@ export function signup(req: express.Request, res: express.Response): void {
                 res.status(401).json({ message: "Account already exists" });
                 return;
             }
-            // @ts-ignore
-            toInsert["token"] = createToken(email);
-            res.status(200).json(toInsert);
+            return createToken(email).then(token => {
+                res.status(200).json({
+                    name,
+                    email,
+                    address,
+                    phone,
+                    token
+                });
+            });
         })
         .catch(() => res.status(401).json({ message: "Account already exists" }));
 }
