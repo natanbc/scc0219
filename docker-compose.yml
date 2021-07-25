@@ -40,9 +40,10 @@ services:
     environment:
       NODE_ENV: development
       API_LISTEN_PORT: 3001
-      MONGO_HOSTS: db
+      MONGO_HOST: db
       MONGO_USER: root
       MONGO_PASSWORD: dev
+      JWT_SECRET_KEY: ce6ca078ddc3c06c0c3fd11f158b63e6c947c084219c2b28604f58e009cf7977
     networks:
       - db
       - outbound

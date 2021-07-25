@@ -22,6 +22,7 @@
   "homepage": "https://github.com/natanbc/scc0219#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "jose": "^3.14.3",
     "mongodb": "^4.0.0",
     "neverthrow": "^4.2.2"
   },

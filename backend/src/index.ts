@@ -1,20 +1,16 @@
 import express from 'express';
 import { MongoClient } from 'mongodb';
-import process from 'process';
 
 import * as controllers from './controllers.js'; 
 import * as routes from './routes.js';
 import Server from './server.js';
 
-const port = process.env['API_LISTEN_PORT'];
+import { port, mongoHost, mongoUser, mongoPassword } from './env.js'
 
-const mongoHosts = process.env['MONGO_HOSTS'];
-const mongoPassword = process.env['MONGO_PASSWORD'];
-const mongoUser = process.env['MONGO_USER'];
 const mongoParams = 'retryWrites=true&writeConcern=majority';
 
 const mongoUrl =
-	`mongodb://${mongoUser}:${mongoPassword}@${mongoHosts}?${mongoParams}`;
+	`mongodb://${mongoUser}:${mongoPassword}@${mongoHost}?${mongoParams}`;
 
 const app = express();
 const client = new MongoClient(mongoUrl);
