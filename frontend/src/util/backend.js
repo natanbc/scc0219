@@ -13,8 +13,14 @@ export function logout(userContext) {
     localStorage.removeItem("user");
 }
 
+export function request(path, options) {
+    //allows using `yarn start` with the backend
+    const prefix = localStorage.getItem("request_prefix");
+    return fetch(prefix ? prefix + path : path, options);
+}
+
 async function doAuth(context, path, body) {
-    const resp = await fetch(path, {
+    const resp = await request(path, {
         method: "POST",
         body: JSON.stringify(body)
     });
@@ -54,7 +60,7 @@ export function signUp(userContext, name, email, password, address, phone) {
 }
 
 export function loadProducts(startId: number): Promise<Object[]> {
-    return fetch("/api/products?after=" + startId).then(r => r.json());
+    return request("/api/products?after=" + startId).then(r => r.json());
 }
 
 async function doAuthenticatedRequest(path, init) {
@@ -62,7 +68,7 @@ async function doAuthenticatedRequest(path, init) {
     if(user === null) throw new Error("Not authenticated");
     if(!init.headers) init.headers = {};
     init.headers["Authorization"] = user.token;
-    return await fetch(path, init);
+    return await request(path, init);
 }
 
 export function createProduct(data): Promise<void> {
