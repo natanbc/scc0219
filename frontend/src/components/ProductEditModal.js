@@ -4,6 +4,7 @@ import { MemoryType, MemoryFormat, MemoryFrequency, MemoryCapacity } from '../mo
 
 import { RouteContext } from '../Context';
 import { FormInput, Select, TextArea } from './Materialize';
+import {createProduct, updateProduct} from "../util/backend";
 
 export default function ProductEditModal(props) {
     const [modal, setModal] = React.useState(null);
@@ -26,12 +27,16 @@ export default function ProductEditModal(props) {
         }
     }, [modal, modalRef, props]);
 
-    const submit = () => {
-        // TODO: Error handling
-        if (props.isNew) {
-            props.productsRepo.create(product);
-        } else {
-            props.productsRepo.update(product);
+    const submit = async () => {
+        try {
+            if (props.isNew) {
+                await createProduct(product);
+            } else {
+                await updateProduct(product.id, product);
+            }
+        } catch(e) {
+            console.error("Error submitting", e);
+            alert("Unable to save product");
         }
         modal.close();
     };

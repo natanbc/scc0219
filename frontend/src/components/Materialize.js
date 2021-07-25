@@ -7,13 +7,13 @@ export function FormInput({name, type, children, icon, value, onChange}) {
             { icon !== undefined && <i className="material-icons prefix">{icon}</i> }
             <input id={name} name={name} type={type}
                 value={value} onChange={onChange}/>
-            <label htmlFor="name" className="active">{children}</label>
+            <label htmlFor={name} className="active">{children}</label>
         </div>;
     } else {
         return <div className="input-field">
             { icon !== undefined && <i className="material-icons prefix">{icon}</i> }
             <input id={name} name={name} type={type}/>
-            <label htmlFor="name">{children}</label>
+            <label htmlFor={name}>{children}</label>
         </div>;
     }
 }
@@ -38,11 +38,11 @@ export function Select({ name, children, value, values, onChange }) {
         valueOptions.push(<option key={value} value={value}>{value}</option>);
     }
 
-    return <div class="input-field">
-        <select ref={selectRef} value={value}
+    return <div className="input-field">
+        <select id={name} ref={selectRef} value={value}
             onChange={onChange}>
             {valueOptions}
         </select>
-        <label>{children}</label>
+        <label htmlFor={name}>{children}</label>
     </div>;
 }

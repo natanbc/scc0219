@@ -15,6 +15,7 @@ export function logout(userContext) {
 
 async function doAuth(context, path, body) {
     const resp = await fetch(path, {
+        method: "POST",
         body: JSON.stringify(body)
     });
     let user;
@@ -52,4 +53,46 @@ export function signUp(userContext, name, email, password, address, phone) {
     return doAuth(userContext, "/api/signup", { name, email, password, address, phone });
 }
 
+export function loadProducts(startId: number): Promise<Object[]> {
+    return fetch("/api/products?after=" + startId).then(r => r.json());
+}
 
+async function doAuthenticatedRequest(path, init) {
+    const user = getUserDetails();
+    if(user === null) throw new Error("Not authenticated");
+    if(!init.headers) init.headers = {};
+    init.headers["Authorization"] = user.token;
+    return await fetch(path, init);
+}
+
+export function createProduct(data): Promise<void> {
+    return doAuthenticatedRequest("/api/products", {
+        method: "POST",
+        body: JSON.stringify(data)
+    }).then(r => r.json());
+}
+
+export function updateProduct(id, data): Promise<void> {
+    return doAuthenticatedRequest("/api/products/" + id, {
+        method: "PUT",
+        body: JSON.stringify(data)
+    }).then(r => r.json());
+}
+
+export function getCart(): Promise<Object[]> {
+    return doAuthenticatedRequest("/api/cart");
+}
+
+export function addToCart(id): Promise<void> {
+    return doAuthenticatedRequest("/api/cart", {
+        method: "POST",
+        body: JSON.stringify({ id })
+    })
+}
+
+export function removeFromCart(id): Promise<void> {
+    return doAuthenticatedRequest("/api/cart", {
+        method: "DELETE",
+        body: JSON.stringify({ id })
+    })
+}

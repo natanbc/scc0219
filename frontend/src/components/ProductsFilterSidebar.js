@@ -16,8 +16,10 @@ function Checkbox(props) {
 function FilterGroup({title, values, where}) {
     const checkboxes = [];
     for (const value in values) {
-        const id = `checkbox-${where}-${value}`
-        checkboxes.push(<Checkbox label={value} id={id} key={id}/>);
+        if(values.hasOwnProperty(value)) {
+            const id = `checkbox-${where}-${value}`
+            checkboxes.push(<Checkbox label={value} id={id} key={id}/>);
+        }
     }
 
     return <>
