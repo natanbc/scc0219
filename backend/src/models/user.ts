@@ -91,7 +91,7 @@ export class User {
 	}
 
 	public setAddress(value: string | null): Result<null, Error> {
-		if (value == null && this.isAdmin === false) {
+		if (value == null && !this.isAdmin) {
 			return err(Error("Address can only be set to null for admins"));	
 		}
 
