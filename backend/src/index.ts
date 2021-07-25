@@ -1,9 +1,8 @@
 import express from 'express';
 import { MongoClient } from 'mongodb';
 
-import * as controllers from './controllers.js'; 
-import * as routes from './routes.js';
 import Server from './server.js';
+import apiRouter from './routes/api.js'
 
 import { port, mongoHost, mongoUser, mongoPassword } from './env.js'
 
@@ -28,8 +27,7 @@ async function run() {
 			res.send('Hello World!');
 		});
 
-		app.use('/users', routes.users);
-		app.get('/products', controllers.products.get);
+		app.use('/api', apiRouter)
 
 		app.listen(port, () => {
 			console.log(`RAM Ranch API listening at http://localhost:${port}`);

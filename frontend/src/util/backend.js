@@ -91,8 +91,7 @@ export function addToCart(id): Promise<void> {
 }
 
 export function removeFromCart(id): Promise<void> {
-    return doAuthenticatedRequest("/api/cart", {
+    return doAuthenticatedRequest("/api/cart/" + id, {
         method: "DELETE",
-        body: JSON.stringify({ id })
     })
 }
