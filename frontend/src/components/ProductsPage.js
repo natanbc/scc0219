@@ -6,7 +6,7 @@ import ProductCard from './ProductCard';
 import ProductEditModal from './ProductEditModal';
 import {ProductsFilterSidebar} from './ProductsFilterSidebar.js';
 import './ProductsPage.css';
-import {loadProducts} from "../util/backend";
+import {addToCart, isLoggedIn, loadProducts} from "../util/backend";
 
 export function ProductsPage() {
     // State
@@ -36,6 +36,17 @@ export function ProductsPage() {
                     <li key={product.id}>
                         <ProductCard
                             product={product}
+                            onBuy={ async () => {
+                                if(!isLoggedIn()) {
+                                    return "/signin";
+                                }
+                                try {
+                                    await addToCart(product.id);
+                                } catch (e) {
+                                    console.log("Unable to add to cart:", e);
+                                    return "/signin";
+                                }
+                            } }
                             onEdit={ () => setProductToEdit(product) }
                             editable={ authUserCtx.user != null && authUserCtx.user.isAdmin }
                         />

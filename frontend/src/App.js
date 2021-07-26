@@ -10,10 +10,11 @@ import { Cart } from './components/Cart.js';
 import Route from './components/Route';
 import React from 'react';
 import { AuthUserContext, RouteContext } from './Context';
+import {getUserDetails} from "./util/backend";
 
 function App({usersRepo, productsRepo}) {
 	const [location, setLocation] = React.useState(window.location);
-	const [authUser, setAuthUser] = React.useState(null);
+	const [authUser, setAuthUser] = React.useState(getUserDetails());
 
 	return <AuthUserContext.Provider value={{ user: authUser, setUser: setAuthUser }}>
 		<RouteContext.Provider value={{ location: location, setLocation: setLocation }}>

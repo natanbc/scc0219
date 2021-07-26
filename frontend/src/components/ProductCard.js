@@ -1,11 +1,13 @@
+import Link from "./Link";
+
 function CardImage(props) {
     return <div className="card-image">
         <img src={props.imageSrc} className="responsive-img" alt=""/>
-        <a className="btn-floating halfway-fab waves-effect waves-light orange accent-4"
+        <Link className="btn-floating halfway-fab waves-effect waves-light orange accent-4"
             href={props.btnHref}
             onClick={props.onClick}>
             <i className="material-icons">{props.btnIcon}</i>
-        </a>
+        </Link>
     </div>;
 }
 
@@ -42,11 +44,11 @@ export default function ProductCard({editable, product, onBuy, onEdit}) {
             <p>
                 {product.description}
             </p>
-            <a className="btn waves-effect waves-light orange accent-4 fillw"
+            <Link className="btn waves-effect waves-light orange accent-4 fillw"
                 href={ editable ? "#edit-product" : "/cart" }
                 onClick={ editable ? onEdit : onBuy }>
                 { editable ? "Edit" : "Buy" }
-            </a>
+            </Link>
         </div>
     </div>;
 }
