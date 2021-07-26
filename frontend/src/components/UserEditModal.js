@@ -3,6 +3,7 @@ import M from 'materialize-css';
 
 import { RouteContext } from '../Context';
 import { FormInput } from './Materialize';
+import {createUser, updateUser} from "../util/backend";
 
 export default function UserEditModal(props) {
     const [modal, setModal] = React.useState(null);
@@ -26,15 +27,19 @@ export default function UserEditModal(props) {
         }
     }, [modal, ref, props]);
 
-    const submit = (event) => {
-        // TODO: Error handling
-        if (props.isNew) {
-            props.usersRepo.createUser(user);
-        } else {
-            props.usersRepo.updateUser(user);
+    const submit = async (event) => {
+        event.preventDefault();
+        try {
+            if (props.isNew) {
+                await createUser(user);
+            } else {
+                await updateUser(user.id, user);
+            }
+        } catch(e) {
+            console.error("Error submitting", e);
+            alert("Unable to save user");
         }
         modal.close();
-        event.preventDefault();
     };
 
     return <form ref={ref} id={props.id} className="modal">
