@@ -6,9 +6,7 @@ const collections = ["products", "users", "carts"];
 async function loadDataset(db: Db, name: string) {
     const coll = db.collection(name);
     const data = JSON.parse(readFileSync(`dev_data/${name}.json`).toString("utf8"));
-    for(const v of data) {
-        await coll.insertOne(v);
-    }
+    await coll.insertMany(data);
 }
 
 export async function clearDevelopmentData(db: Db) {
