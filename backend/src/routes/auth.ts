@@ -36,7 +36,8 @@ export function login(req: express.Request, res: express.Response): void {
                     token,
                     name: user["name"],
                     address: user["address"],
-                    phone: user["phone"]
+                    phone: user["phone"],
+                    isAdmin: user["isAdmin"],
                 });
             });
         })

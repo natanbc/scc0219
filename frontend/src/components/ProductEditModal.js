@@ -27,7 +27,8 @@ export default function ProductEditModal(props) {
         }
     }, [modal, modalRef, props]);
 
-    const submit = async () => {
+    const submit = async (event) => {
+        event.preventDefault();
         try {
             if (props.isNew) {
                 await createProduct(product);
