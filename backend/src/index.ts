@@ -7,7 +7,7 @@ import Server from './server.js';
 import apiRouter from './routes/api.js'
 
 import {port, mongoHost, mongoUser, mongoPassword, development} from './env.js'
-
+import {createDevelopmentData} from "./development_data.js";
 const mongoParams = 'retryWrites=true&writeConcern=majority';
 
 const mongoUrl =
@@ -21,6 +21,16 @@ async function run() {
 		await client.connect();
 
 		const database = client.db('ramranch');
+
+		if(development) {
+			//drops all tables, creates them with development data
+			await createDevelopmentData(database);
+		}
+
+		//ensure proper indexes exist, regardless of development or production usage
+		await database.collection("users").createIndex({ email: 1 }, { unique: true });
+		await database.collection("products").createIndex({ id: 1 }, { unique: true });
+		await database.collection("carts").createIndex({ owner_email: 1 }, { unique: true });
 
 		const server = new Server(database);
 		app.set('server', server);

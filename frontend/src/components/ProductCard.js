@@ -19,7 +19,7 @@ export default function ProductCard({editable, product, onBuy, onEdit}) {
         <div className="card-content">
             <span className="card-title">
                 {product.name}
-                <span className="right">{product.price}</span>
+                <span className="right">R$ {product.price.toFixed(2)}</span>
             </span>
             <p>
                 <span className="activator grey-text text-darken-4">

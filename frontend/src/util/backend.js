@@ -86,7 +86,7 @@ export function createProduct(data): Promise<void> {
 
 export function updateProduct(id, data): Promise<void> {
     return doAuthenticatedRequest("/api/products/" + id, jsonBody(data, {
-        method: "PUT",
+        method: "PATCH",
     })).then(r => r.json());
 }
 

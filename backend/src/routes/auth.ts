@@ -2,6 +2,7 @@ import express from "express";
 import Server from "../server.js";
 import {hashPassword, verifyPassword} from "../util/crypto.js";
 import {createToken, verifyToken} from "../util/auth.js";
+import {onlyStrings} from "../util/prevent_injection.js";
 
 export function login(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
@@ -11,6 +12,11 @@ export function login(req: express.Request, res: express.Response): void {
     }
 
     const { email, password } = req.body;
+    //prevent mongo injection
+    if(!onlyStrings(email, password)) {
+        res.status(400).json({ message: "Bad request" });
+        return;
+    }
 
     server.database.collection("users")
         .findOne({ email })
@@ -48,6 +54,12 @@ export function signup(req: express.Request, res: express.Response): void {
     }
 
     const { name, email, password, address, phone } = req.body;
+    //prevent mongo injection
+    if(!onlyStrings(name, email, password, address, phone)) {
+        res.status(400).json({ message: "Bad request" });
+        return;
+    }
+
     const toInsert = { name, email, password: hashPassword(password), address, phone, isAdmin: false };
 
     server.database.collection("users")
