@@ -6,7 +6,7 @@ import { ProductsPage } from './components/ProductsPage.js';
 import { UsersPage } from './components/UsersPage.js';
 import { SignUpPage } from './components/SignUpPage.js';
 import { SignInPage } from './components/SignInPage.js';
-import { Cart } from './components/Cart.js';
+import CartPage from './components/cartPage';
 import Route from './components/Route';
 import React from 'react';
 import { AuthUserContext, RouteContext } from './Context';
@@ -38,7 +38,7 @@ function App({usersRepo, productsRepo}) {
 					<SignInPage/>
 				</Route>
 				<Route path="/cart">
-					<Cart/>
+					<CartPage/>
 				</Route>
 			</main>
 			<Footer/>

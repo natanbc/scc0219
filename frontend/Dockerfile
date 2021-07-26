@@ -3,7 +3,7 @@ FROM node:16-alpine3.11 AS builder
 
 WORKDIR /tmp/ramranch-web
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock tsconfig.json ./
 RUN yarn install
 
 COPY public ./public

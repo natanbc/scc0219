@@ -3,4 +3,5 @@
 !src
 !package.json
 !yarn.lock
+!tsconfig.json
 !nginx-local.conf

@@ -53,14 +53,8 @@ export function getCart(req: express.Request, res: express.Response): void {
         });
 }
 
-export function addToCart(req: express.Request, res: express.Response): void {
+function addOrIncrement(req: express.Request, res: express.Response, productId: string): void {
     const server = Server.fromApp(req.app);
-
-    const productId = req.body["id"];
-    if(typeof productId !== 'string' || !isValidID(productId)) {
-        res.status(400).json({ message: "Invalid or missing product ID" });
-        return;
-    }
     const email = getUserEmail(req);
 
     tryAdd(server.database, productId, email)
@@ -75,6 +69,16 @@ export function addToCart(req: express.Request, res: express.Response): void {
             console.error("Unable to add item to cart", e);
             res.status(500).json({ message: "Internal server error" });
         });
+}
+
+export function addToCart(req: express.Request, res: express.Response): void {
+    const productId = req.body["id"];
+    if(typeof productId !== 'string' || !isValidID(productId)) {
+        res.status(400).json({ message: "Invalid or missing product ID" });
+        return;
+    }
+
+    addOrIncrement(req, res, productId);
 }
 
 export function removeFromCart(req: express.Request, res: express.Response): void {
@@ -107,9 +111,14 @@ export function removeFromCart(req: express.Request, res: express.Response): voi
 }
 
 export function increaseCartAmount(req: express.Request, res: express.Response): void {
+    const productId = req.params["id"];
+    if(typeof productId !== 'string' || !isValidID(productId)) {
+        res.status(400).json({ message: "Invalid or missing product ID" });
+        return;
+    }
     //while this is a separate route, adding to cart and increasing the amount
     //do exactly the same queries.
-    addToCart(req, res);
+    addOrIncrement(req, res, productId);
 }
 
 export function decreaseCartAmount(req: express.Request, res: express.Response): void {
