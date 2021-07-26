@@ -19,19 +19,19 @@ export function ProductsPage() {
     const fetchProducts = React.useCallback(async () => {
         const productCardsTmp = [];
 
-        let maxId = 0;
+        let fetchId = "0";
         while(true) {
             let products;
             try {
-                products = await loadProducts(maxId);
+                products = await loadProducts(fetchId);
             } catch(e) {
                 console.error(e);
                 alert("Error requesting product list");
                 break;
             }
             if(products.length === 0) break;
+            fetchId = products[products.length - 1].id;
             for (const product of products) {
-                maxId = Math.max(maxId, product.id);
                 productCardsTmp.push(
                     <li key={product.id}>
                         <ProductCard
@@ -41,7 +41,11 @@ export function ProductsPage() {
                                     return "/signin";
                                 }
                                 try {
-                                    await addToCart(product.id);
+                                    const { ok, message } = await addToCart(product.id);
+                                    if(!ok) {
+                                        alert("Unable to add to cart: " + message);
+                                        return "/products"
+                                    }
                                 } catch (e) {
                                     console.log("Unable to add to cart:", e);
                                     return "/signin";

@@ -30,6 +30,31 @@ export function listProducts(req: express.Request, res: express.Response): void 
     })
 }
 
+export function getProduct(req: express.Request, res: express.Response): void {
+    const server = Server.fromApp(req.app);
+
+    const id = req.params["id"];
+    if(!id || !isValidID(id)) {
+        res.status(400).json({ message: "Invalid or missing product ID" });
+        return;
+    }
+
+    server.database.collection("products")
+        .findOne({ id })
+        .then(p => {
+            if(!p) {
+                res.status(404).json({ message: "Not found" });
+                return;
+            }
+            delete p["_id"];
+            res.status(200).json(p);
+        })
+        .catch(e => {
+            console.error("Error fetching product", e);
+            res.status(500).json({ message: "Internal server error" });
+        });
+}
+
 export function createProduct(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
 

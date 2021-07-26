@@ -66,8 +66,12 @@ export function signUp(userContext, name, email, password, address, phone) {
     return doAuth(userContext, "/api/signup", { name, email, password, address, phone });
 }
 
-export function loadProducts(startId: number): Promise<Object[]> {
+export function loadProducts(startId: string): Promise<Object[]> {
     return request("/api/products?after=" + startId).then(r => r.json());
+}
+
+export function getProduct(id: string): Promise<Object> {
+    return request("/api/products/" + id).then(r => r.json());
 }
 
 async function doAuthenticatedRequest(path, opts) {
@@ -92,30 +96,50 @@ export function updateProduct(id, data): Promise<void> {
 }
 
 export function getCart(): Promise<Object[]> {
-    return doAuthenticatedRequest("/api/cart");
+    return doAuthenticatedRequest("/api/cart").then(r => r.json());
 }
 
 export function addToCart(id): Promise<void> {
     return doAuthenticatedRequest("/api/cart", jsonBody({ id }, {
         method: "POST",
-    }))
+    })).then(r => {
+        if(r.status !== 200) {
+            return r.json().then(data => ({ ok: false, message: data.message }));
+        }
+        return r.json().then(data => ({ ok: true, message: data.message }));
+    });
 }
 
 export function removeFromCart(id): Promise<void> {
     return doAuthenticatedRequest("/api/cart/" + id, {
         method: "DELETE",
+    }).then(r => {
+        if(r.status !== 200) {
+            return r.json().then(data => ({ ok: false, message: data.message }));
+        }
+        return r.json().then(data => ({ ok: true, message: data.message }));
     })
 }
 
 export function increaseCartAmount(id): Promise<void> {
     return doAuthenticatedRequest(`/api/cart/${id}/inc`, {
         method: "POST",
+    }).then(r => {
+        if(r.status !== 200) {
+            return r.json().then(data => ({ ok: false, message: data.message }));
+        }
+        return r.json().then(data => ({ ok: true, message: data.message }));
     })
 }
 
 export function decreaseCartAmount(id): Promise<void> {
     return doAuthenticatedRequest(`/api/cart/${id}/dec`, {
         method: "POST",
+    }).then(r => {
+        if(r.status !== 200) {
+            return r.json().then(data => ({ ok: false, message: data.message }));
+        }
+        return r.json().then(data => ({ ok: true, message: data.message }));
     })
 }
 

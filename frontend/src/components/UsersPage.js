@@ -23,7 +23,6 @@ export function UserListItem({ user, onClick }) {
     </Link>;
 }
 
-// TODO: Add users.
 export function UsersPage({usersRepo}) {
     // State
     const [userToEdit, setUserToEdit] = React.useState(null);
@@ -36,19 +35,19 @@ export function UsersPage({usersRepo}) {
     const fetchUsers = React.useCallback(async () => {
         const userItems = [];
 
-        let maxId = 0;
+        let fetchId = "0";
         while(true) {
             let users;
             try {
-                users = await loadUsers(maxId);
+                users = await loadUsers(fetchId);
             } catch(e) {
                 console.error(e);
                 alert("Error requesting user list");
                 break;
             }
             if(users.length === 0) break;
+            fetchId = users[users.length - 1].id;
             for (const user of users) {
-                maxId = Math.max(maxId, user.id);
                 userItems.push(
                     <UserListItem
                         key={user.id}

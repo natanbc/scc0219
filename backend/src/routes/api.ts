@@ -1,8 +1,8 @@
 import express from "express";
 
 import {login, signup, requireAuth} from "./auth.js";
-import {listProducts, createProduct, updateProduct} from "./products.js";
-import {getCart, addToCart, removeFromCart, increaseCartAmount, decreaseCartAmount} from "./cart";
+import {listProducts, getProduct, createProduct, updateProduct} from "./products.js";
+import {getCart, addToCart, removeFromCart, increaseCartAmount, decreaseCartAmount} from "./cart.js";
 import {listUsers, createUser, updateUser} from "./users.js";
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.post("/signup", signup);
 
 //list products
 router.get("/products", listProducts);
+router.get("/products/:id", getProduct);
 
 //update products (admin-only)
 router.post("/products", requireAuth(true), createProduct);
