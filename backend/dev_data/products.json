@@ -6,7 +6,7 @@
     "amountSold": 0,
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
     "photo": "ddr2-sodimm.jpg",
-    "id": 1
+    "id": "1"
   },
   {
     "name": "Produto 1",
@@ -15,7 +15,7 @@
     "amountSold": 0,
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
     "photo": "ddr2-sodimm.jpg",
-    "id": 2
+    "id": "2"
   },
   {
     "name": "Produto 1",
@@ -24,7 +24,7 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 3
+    "id": "3"
   },
   {
     "name": "Produto 1",
@@ -33,7 +33,7 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 4
+    "id": "4"
   },
   {
     "name": "Produto 1",
@@ -42,7 +42,7 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 5
+    "id": "5"
   },
   {
     "name": "Produto 1",
@@ -51,7 +51,7 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 6
+    "id": "6"
   },
   {
     "name": "Produto 1",
@@ -60,7 +60,7 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 7
+    "id": "7"
   },
   {
     "name": "Produto 1",
@@ -69,7 +69,7 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 8
+    "id": "8"
   },
   {
     "name": "Produto 1",
@@ -78,6 +78,6 @@
     "amountSold": 0,
     "description": "This is a product",
     "photo": "ddr2-sodimm.jpg",
-    "id": 9
+    "id": "9"
   }
 ]

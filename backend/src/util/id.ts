@@ -8,3 +8,12 @@ const generator = new UniqueID({
 export function generateID(): string {
     return generator.getUniqueID() as string;
 }
+
+export function isValidID(id: string): boolean {
+    try {
+        BigInt(id);
+        return true;
+    } catch {
+        return false;
+    }
+}

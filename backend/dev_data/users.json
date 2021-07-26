@@ -6,7 +6,7 @@
     "isAdmin": true,
     "phone": "+55 1234-5678",
     "name": "RamRanch Admin",
-    "id": 1
+    "id": "1"
   },
   {
     "email": "cliente@gmail.com",
@@ -16,6 +16,6 @@
     "phone": "+55 5678-1234",
     "name": "John Doe",
     "address": "Chang'an Street 1989, Dongcheng District, Beijing",
-    "id": 2
+    "id": "2"
   }
 ]

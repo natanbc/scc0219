@@ -1,18 +1,17 @@
 import express from "express";
 import Server from "../server.js";
-import {generateID} from "../util/id.js";
+import {generateID, isValidID} from "../util/id.js";
 
 const todo = (_: express.Request, res: express.Response) => res.status(500).json({ message: "unimplemented" });
 
 export function listProducts(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
 
-    const rawAfter = req.query["after"];
-    if(typeof rawAfter !== 'string' || isNaN(parseInt(rawAfter))) {
+    const after = req.query["after"];
+    if(typeof after !== 'string' || !isValidID(after)) {
         res.status(400).json({ message: "Invalid or missing 'after' query string" });
         return;
     }
-    const after = parseInt(rawAfter);
 
     (async () => {
         const results: object[] = [];

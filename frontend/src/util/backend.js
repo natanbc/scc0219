@@ -70,12 +70,13 @@ export function loadProducts(startId: number): Promise<Object[]> {
     return request("/api/products?after=" + startId).then(r => r.json());
 }
 
-async function doAuthenticatedRequest(path, init) {
+async function doAuthenticatedRequest(path, opts) {
     const user = getUserDetails();
     if(user === null) throw new Error("Not authenticated");
-    if(!init.headers) init.headers = {};
-    init.headers["Authorization"] = user.token;
-    return await request(path, init);
+    if(!opts) opts = {};
+    if(!opts.headers) opts.headers = {};
+    opts.headers["Authorization"] = user.token;
+    return await request(path, opts);
 }
 
 export function createProduct(data): Promise<void> {
@@ -104,4 +105,20 @@ export function removeFromCart(id): Promise<void> {
     return doAuthenticatedRequest("/api/cart/" + id, {
         method: "DELETE",
     })
+}
+
+export function loadUsers(startId: string): Promise<Object[]> {
+    return doAuthenticatedRequest("/api/users?after=" + startId).then(r => r.json());
+}
+
+export function createUser(data): Promise<void> {
+    return doAuthenticatedRequest("/api/users", jsonBody(data, {
+        method: "POST",
+    })).then(r => r.json());
+}
+
+export function updateUser(id, data): Promise<void> {
+    return doAuthenticatedRequest("/api/users/" + id, jsonBody(data, {
+        method: "PATCH",
+    })).then(r => r.json());
 }

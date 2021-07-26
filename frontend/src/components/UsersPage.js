@@ -4,6 +4,7 @@ import React from "react";
 import Route from './Route';
 import Link from './Link';
 import { AuthUserContext } from '../Context';
+import {loadUsers} from "../util/backend";
 
 export function UserListItem({ user, onClick }) {
     return <Link href="#edit-user" onClick={onClick}
@@ -32,14 +33,22 @@ export function UsersPage({usersRepo}) {
 
     const authUserCtx = React.useContext(AuthUserContext);
 
-    React.useEffect(() => {
-        async function loadUsers() {
-            // TODO: Paging
-            // TODO: Handle errors
-            const users = await usersRepo.getUsers(0);
+    const fetchUsers = React.useCallback(async () => {
+        const userItems = [];
 
-            const userItems = [];
+        let maxId = 0;
+        while(true) {
+            let users;
+            try {
+                users = await loadUsers(maxId);
+            } catch(e) {
+                console.error(e);
+                alert("Error requesting user list");
+                break;
+            }
+            if(users.length === 0) break;
             for (const user of users) {
+                maxId = Math.max(maxId, user.id);
                 userItems.push(
                     <UserListItem
                         key={user.id}
@@ -47,12 +56,14 @@ export function UsersPage({usersRepo}) {
                         onClick={() => { setUserToEdit(user); }}
                     />);
             }
-
-            setUserItems(userItems);
         }
 
-        loadUsers();
-    }, [usersRepo, userToEdit]);
+        setUserItems(userItems);
+    }, [authUserCtx.user, userToEdit]);
+
+    React.useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
 
     if (authUserCtx.user == null || !authUserCtx.user.isAdmin) {
         return <h2 className="center-align">Unauthorized</h2>;
