@@ -1,5 +1,6 @@
 import express from "express";
 import Server from "../server.js";
+import {generateID} from "../util/id.js";
 
 const todo = (_: express.Request, res: express.Response) => res.status(500).json({ message: "unimplemented" });
 
@@ -33,6 +34,8 @@ export function listProducts(req: express.Request, res: express.Response): void 
 }
 
 export function createProduct(req: express.Request, res: express.Response): void {
+    const id = generateID();
+    console.log("id:", id);
     todo(req, res);
 }
 

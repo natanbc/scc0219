@@ -28,6 +28,7 @@ async function run() {
 
 		//ensure proper indexes exist, regardless of development or production usage
 		await database.collection("users").createIndex({ email: 1 }, { unique: true });
+		await database.collection("users").createIndex({ id: 1 }, { unique: true });
 		await database.collection("products").createIndex({ id: 1 }, { unique: true });
 		await database.collection("carts").createIndex({ owner_email: 1 }, { unique: true });
 

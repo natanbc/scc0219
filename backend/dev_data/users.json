@@ -5,7 +5,8 @@
     "password": "4bfe376faa802cfdceca5905a411082c8d90c69dd1ebf56a226a9b62e72c04f6:064c66d2e62a383866ed7bf64af9bdaffca3876c5354034b4214eec57e391b9dd410ecb8ef3cd668b30d32465696a1c09420e91bdb5b5ee745fc1cdcaf169481",
     "isAdmin": true,
     "phone": "+55 1234-5678",
-    "name": "RamRanch Admin"
+    "name": "RamRanch Admin",
+    "id": 1
   },
   {
     "email": "cliente@gmail.com",
@@ -14,6 +15,7 @@
     "isAdmin": false,
     "phone": "+55 5678-1234",
     "name": "John Doe",
-    "address": "Chang'an Street 1989, Dongcheng District, Beijing"
+    "address": "Chang'an Street 1989, Dongcheng District, Beijing",
+    "id": 2
   }
 ]

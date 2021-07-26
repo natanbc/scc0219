@@ -3,6 +3,7 @@ import Server from "../server.js";
 import {hashPassword, verifyPassword} from "../util/crypto.js";
 import {createToken, verifyToken} from "../util/auth.js";
 import {onlyStrings} from "../util/prevent_injection.js";
+import {generateID} from "../util/id.js";
 
 export function login(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
@@ -53,7 +54,9 @@ export function signup(req: express.Request, res: express.Response): void {
         return;
     }
 
-    const toInsert = { name, email, password: hashPassword(password), address, phone, isAdmin: false };
+    const id = generateID();
+
+    const toInsert = { id, name, email, password: hashPassword(password), address, phone, isAdmin: false };
 
     server.database.collection("users")
         .insertOne(toInsert)
