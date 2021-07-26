@@ -8,6 +8,10 @@ import { signUp } from "../util/backend";
 
 async function HandleSignUp(event, authUserCtx, routeCtx) {
     event.preventDefault();
+    if(event.target.password.value !== event.target["confirm-password"].value) {
+        alert("Passwords do not match");
+        return;
+    }
 
     try {
         await signUp(
@@ -33,21 +37,39 @@ export function SignUp() {
     const authUserCtx = React.useContext(AuthUserContext);
     const routeCtx = React.useContext(RouteContext);
 
+    const [user, setUser] = React.useState({});
+
     return <form className="card col s12"
         onSubmit={(e) => HandleSignUp(e, authUserCtx, routeCtx)}>
 
             <div className="card-content">
-                <FormInput name="name" type="text" icon="person">
+                <FormInput name="name" type="text" icon="person" onChange={(event) =>
+                    setUser({...user, name: event.target.value})
+                }>
                     Name</FormInput>
-                <FormInput name="email" type="email" icon="email">
+                <FormInput name="email" type="email" icon="email" onChange={(event) =>
+                    setUser({...user, email: event.target.value})
+                }>
                     Email</FormInput>
-                <FormInput name="password" type="password" icon="password">
+                <FormInput name="password" type="password" icon="password"
+                           className={user.password === user.confirmPassword ? "" : "invalid"}
+                           onInput={(event) =>
+                    setUser({...user, password: event.target.value})
+                }>
                     Password</FormInput>
-                <FormInput name="confirm-password" type="password" icon="password">
+                <FormInput name="confirm-password" type="password" icon="password"
+                           className={user.password === user.confirmPassword ? "" : "invalid"}
+                           onInput={(event) =>
+                               setUser({...user, confirmPassword: event.target.value})
+                           }>
                     Confirm Password</FormInput>
-                <FormInput name="address" type="text" icon="place">
+                <FormInput name="address" type="text" icon="place" onChange={(event) =>
+                    setUser({...user, address: event.target.value})
+                }>
                     Endereço</FormInput>
-                <FormInput name="phone" type="tel" icon="phone">
+                <FormInput name="phone" type="tel" icon="phone" onChange={(event) =>
+                    setUser({...user, phone: event.target.value})
+                }>
                     Telefone</FormInput>
             </div>
             <div className="card-action row" style={{ marginBottom: 0 }}>
