@@ -107,6 +107,18 @@ export function removeFromCart(id): Promise<void> {
     })
 }
 
+export function increaseCartAmount(id): Promise<void> {
+    return doAuthenticatedRequest(`/api/cart/${id}/inc`, {
+        method: "POST",
+    })
+}
+
+export function decreaseCartAmount(id): Promise<void> {
+    return doAuthenticatedRequest(`/api/cart/${id}/dec`, {
+        method: "POST",
+    })
+}
+
 export function loadUsers(startId: string): Promise<Object[]> {
     return doAuthenticatedRequest("/api/users?after=" + startId).then(r => r.json());
 }
