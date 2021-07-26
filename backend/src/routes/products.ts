@@ -5,10 +5,6 @@ const todo = (_: express.Request, res: express.Response) => res.status(500).json
 
 export function listProducts(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
-    if (server == null) {
-        res.status(500).json({ message: "Internal server error" })
-        return;
-    }
 
     const rawAfter = req.query["after"];
     if(typeof rawAfter !== 'string' || isNaN(parseInt(rawAfter))) {
@@ -24,6 +20,7 @@ export function listProducts(req: express.Request, res: express.Response): void 
             .sort({ id: 1 })
             .limit(3)
             .forEach(e => {
+                delete e["_id"];
                 results.push(e);
             });
         return results;
@@ -40,5 +37,22 @@ export function createProduct(req: express.Request, res: express.Response): void
 }
 
 export function updateProduct(req: express.Request, res: express.Response): void {
-    todo(req, res);
+    const server = Server.fromApp(req.app);
+
+    const rawId = req.params["id"];
+    if(!rawId || isNaN(parseInt(rawId))) {
+        res.status(400).json({ message: "Invalid or missing product ID" });
+        return;
+    }
+    const id = parseInt(rawId);
+
+    server.database.collection("products")
+        .updateOne({ id }, { $set: req.body })
+        .then(() => {
+            res.status(200).json({ message: "Updated" });
+        })
+        .catch(e => {
+            console.error("Error updating product", e);
+            res.status(500).json({ message: "Internal server error" });
+        });
 }

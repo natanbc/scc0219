@@ -55,7 +55,7 @@ export function ProductsPage() {
         }
 
         setProductCards(productCardsTmp);
-    }, [authUserCtx.user]);
+    }, [authUserCtx.user, productToEdit]);
 
     React.useEffect(() => {
         fetchProducts();

@@ -56,17 +56,17 @@ export default function ProductEditModal(props) {
                 Description</TextArea>
             <FormInput name="price" type="text"
                 value={product.price} onChange={(event) =>
-                    setProduct({ ...product, price: event.target.value })
+                    setProduct({ ...product, price: parseInt(event.target.value) })
                 }>
                 Price</FormInput>
             <FormInput name="amount-available" type="number"
                 value={product.amountAvailable} onChange={(event) =>
-                    setProduct({ ...product, amountAvailable: event.target.value })
+                    setProduct({ ...product, amountAvailable: parseInt(event.target.value) })
                 }>
                 Amount Available</FormInput>
             <FormInput name="amount-sold" type="number"
                 value={product.amountSold} onChange={(event) =>
-                    setProduct({ ...product, amountSold: event.target.value })
+                    setProduct({ ...product, amountSold: parseInt(event.target.value) })
                 }>
                 Amount Sold</FormInput>
 

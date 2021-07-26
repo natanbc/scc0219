@@ -7,7 +7,7 @@ export default class Server {
 	public readonly database: mongo.Db;
 	public readonly usersRepository: repositories.Users;
 
-	public static fromApp(app: express.Application): Server | null {
+	public static fromApp(app: express.Application): Server {
 		const server = app.get('server');	
 
 		if (server != undefined && server instanceof Server) {
@@ -16,7 +16,7 @@ export default class Server {
 
 		console.error('Server object was missing from express app!');
 		console.trace();
-		return null;
+		throw new Error();
 	}
 
 	public constructor(database: mongo.Db) {

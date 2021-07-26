@@ -6,10 +6,6 @@ import {onlyStrings} from "../util/prevent_injection.js";
 
 export function login(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
-    if (server == null) {
-        res.status(500).json({ message: "Internal server error" })
-        return;
-    }
 
     const { email, password } = req.body;
     //prevent mongo injection
@@ -49,10 +45,6 @@ export function login(req: express.Request, res: express.Response): void {
 
 export function signup(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
-    if (server == null) {
-        res.status(500).json({ message: "Internal server error" })
-        return;
-    }
 
     const { name, email, password, address, phone } = req.body;
     //prevent mongo injection
@@ -101,10 +93,6 @@ export function requireAuth(admin: boolean): (req: express.Request, res: express
             return;
         }
         const server = Server.fromApp(req.app);
-        if (server == null) {
-            res.status(500).json({ message: "Internal server error" })
-            return;
-        }
         verifyToken(token)
             .then(email => {
                 return server.database.collection("users")
