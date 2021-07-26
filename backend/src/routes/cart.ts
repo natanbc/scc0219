@@ -109,5 +109,30 @@ export function increaseCartAmount(req: express.Request, res: express.Response):
 }
 
 export function decreaseCartAmount(req: express.Request, res: express.Response): void {
-    todo(req, res);
+    const server = Server.fromApp(req.app);
+
+    const productId = req.params["id"];
+    if(!productId || !isValidID(productId)) {
+        res.status(400).json({ message: "Invalid or missing product ID" });
+        return;
+    }
+    const email = getUserEmail(req);
+
+
+    const p = (async () => {
+        //try removing one from the cart
+        const res = await server.database.collection("carts")
+            .findOneAndUpdate(
+                { owner_email: email, [`products.${productId}`]: { $gte: 1 } },
+                { $inc: { [`products.${productId}`]: -1 } }
+            )
+        if(!res.ok || !res.value) return;
+        const amount = res.value["products"][productId];
+        if(!amount || amount <= 0) return;
+        //if the cart had something, return it to the inventory
+        await server.database.collection("products")
+            .updateOne({ id: productId }, { $inc: { amountAvailable: 1 } });
+    })();
+    p.then(() => res.status(200).json({ message: "Removed" }))
+        .catch(() => res.status(500).json({ message: "Internal server error" }));
 }
