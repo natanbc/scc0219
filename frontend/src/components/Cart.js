@@ -20,7 +20,7 @@ export function Cart() {
                     photo={product.photo}
                     name={product.name}
                     price={"R$ " + product.price.toFixed(2)}
-                    amount={cart[id].amount}
+                    amount={cart[id]}
                 />
             </li>
         }))

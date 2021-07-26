@@ -1,3 +1,9 @@
 [
-
+  {
+    "owner_email": "cliente@gmail.com",
+    "products": {
+      "1": 10,
+      "6": 2
+    }
+  }
 ]
