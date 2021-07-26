@@ -17,7 +17,7 @@ export function listUsers(req: express.Request, res: express.Response): void {
         await server.database.collection("users")
             .find({ id: { $gt: after }})
             .sort({ id: 1 })
-            .limit(3)
+            .limit(20)
             .forEach(e => {
                 delete e["_id"];
                 delete e["password"];

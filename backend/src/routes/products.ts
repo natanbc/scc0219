@@ -16,7 +16,7 @@ export function listProducts(req: express.Request, res: express.Response): void 
         await server.database.collection("products")
             .find({ id: { $gt: after }})
             .sort({ id: 1 })
-            .limit(3)
+            .limit(20)
             .forEach(e => {
                 delete e["_id"];
                 results.push(e);

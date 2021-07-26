@@ -66,7 +66,7 @@ for r in ram:
         'photo': "https://files.natanbc.net/usp/scc0219/img/" + str(i) + "." + ext(image),
         'amountAvailable': random.randint(30, 150),
         'amountSold': 0,
-        'id': i,
+        'id': str(i),
         'description': desc,
         'memoryType': guess_type(name),
         'memoryFormat': guess_format(name),
