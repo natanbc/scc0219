@@ -4,8 +4,6 @@ import {getUserEmail} from "./auth.js";
 import {isValidID} from "../util/id.js";
 import {Db} from "mongodb";
 
-const todo = (_: express.Request, res: express.Response) => res.status(500).json({ message: "unimplemented" });
-
 async function tryAdd(database: Db, productId: string, email: string) {
     //first check if the product exists
     const product = await database.collection("products")
