@@ -29,6 +29,10 @@ export default function UserEditModal(props) {
 
     const submit = async (event) => {
         event.preventDefault();
+        if(user.password !== user.confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
         try {
             if (props.isNew) {
                 await createUser(user);
@@ -50,7 +54,7 @@ export default function UserEditModal(props) {
                     <input type="checkbox" checked={user.isAdmin}
                         onChange={(event) =>
                             setUser({...user, isAdmin: event.target.checked})}/>
-                    <span className="lever"></span>
+                    <span className="lever"/>
                     Administrator
                 </label>
             </div>
@@ -65,13 +69,15 @@ export default function UserEditModal(props) {
                 }>
                 Email</FormInput>
             <FormInput name="password" type="password"
-                value={user.password} onChange={(event) =>
+                className={user.password === user.confirmPassword ? "" : "invalid"}
+                value={user.password} onInput={(event) =>
                     setUser({...user, password: event.target.value})
                 }>
                 Password</FormInput>
             <FormInput name="confirm-password" type="password"
-                value={user.password} onChange={(event) =>
-                    setUser({...user, password: event.target.value})
+                className={user.password === user.confirmPassword ? "" : "invalid"}
+                value={user.confirmPassword} onChange={(event) =>
+                    setUser({...user, confirmPassword: event.target.value})
                 }>
                 Confirm Password</FormInput>
             { user.isAdmin &&

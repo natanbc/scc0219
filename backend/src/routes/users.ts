@@ -1,8 +1,7 @@
 import express from "express";
 import Server from "../server.js";
 import {generateID, isValidID} from "../util/id.js";
-
-const todo = (_: express.Request, res: express.Response) => res.status(500).json({ message: "unimplemented" });
+import {hashPassword} from "../util/crypto.js";
 
 export function listUsers(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
@@ -21,6 +20,7 @@ export function listUsers(req: express.Request, res: express.Response): void {
             .limit(3)
             .forEach(e => {
                 delete e["_id"];
+                delete e["password"];
                 results.push(e);
             });
         return results;
@@ -33,11 +33,45 @@ export function listUsers(req: express.Request, res: express.Response): void {
 }
 
 export function createUser(req: express.Request, res: express.Response): void {
-    const id = generateID();
-    console.log("id:", id);
-    todo(req, res);
+    const server = Server.fromApp(req.app);
+
+    if(req.body["password"]) {
+        req.body["password"] = hashPassword(req.body["password"]);
+    }
+    req.body["id"] = generateID();
+    delete req.body["_id"];
+
+    server.database.collection("users")
+        .insertOne(req.body)
+        .then(() => {
+            res.status(200).json({ message: "Created" });
+        })
+        .catch(e => {
+            console.error("Error creating user", e);
+            res.status(500).json({ message: "Internal server error" });
+        });
 }
 
 export function updateUser(req: express.Request, res: express.Response): void {
-    todo(req, res);
+    const server = Server.fromApp(req.app);
+
+    const id = req.params["id"];
+    if(!id || !isValidID(id)) {
+        res.status(400).json({ message: "Invalid or missing product ID" });
+        return;
+    }
+
+    if(req.body["password"]) {
+        req.body["password"] = hashPassword(req.body["password"]);
+    }
+
+    server.database.collection("users")
+        .updateOne({ id }, { $set: req.body })
+        .then(() => {
+            res.status(200).json({ message: "Updated" });
+        })
+        .catch(e => {
+            console.error("Error updating user", e);
+            res.status(500).json({ message: "Internal server error" });
+        });
 }

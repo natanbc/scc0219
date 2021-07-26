@@ -2,8 +2,6 @@ import express from "express";
 import Server from "../server.js";
 import {generateID, isValidID} from "../util/id.js";
 
-const todo = (_: express.Request, res: express.Response) => res.status(500).json({ message: "unimplemented" });
-
 export function listProducts(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
 
@@ -33,20 +31,30 @@ export function listProducts(req: express.Request, res: express.Response): void 
 }
 
 export function createProduct(req: express.Request, res: express.Response): void {
-    const id = generateID();
-    console.log("id:", id);
-    todo(req, res);
+    const server = Server.fromApp(req.app);
+
+    req.body["id"] = generateID();
+    delete req.body["_id"];
+
+    server.database.collection("products")
+        .insertOne(req.body)
+        .then(() => {
+            res.status(200).json({ message: "Created" });
+        })
+        .catch(e => {
+            console.error("Error creating product", e);
+            res.status(500).json({ message: "Internal server error" });
+        });
 }
 
 export function updateProduct(req: express.Request, res: express.Response): void {
     const server = Server.fromApp(req.app);
 
-    const rawId = req.params["id"];
-    if(!rawId || isNaN(parseInt(rawId))) {
+    const id = req.params["id"];
+    if(!id || !isValidID(id)) {
         res.status(400).json({ message: "Invalid or missing product ID" });
         return;
     }
-    const id = parseInt(rawId);
 
     server.database.collection("products")
         .updateOne({ id }, { $set: req.body })

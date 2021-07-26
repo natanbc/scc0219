@@ -1,18 +1,18 @@
 import React from "react";
 import M from 'materialize-css';
 
-export function FormInput({name, type, children, icon, value, onChange}) {
+export function FormInput({name, type, children, icon, value, ...props}) {
     if (value != null) {
         return <div className="input-field">
             { icon !== undefined && <i className="material-icons prefix">{icon}</i> }
             <input id={name} name={name} type={type}
-                value={value} onChange={onChange}/>
+                value={value} {...props}/>
             <label htmlFor={name} className="active">{children}</label>
         </div>;
     } else {
         return <div className="input-field">
             { icon !== undefined && <i className="material-icons prefix">{icon}</i> }
-            <input id={name} name={name} type={type}/>
+            <input id={name} name={name} type={type} {...props}/>
             <label htmlFor={name}>{children}</label>
         </div>;
     }
