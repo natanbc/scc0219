@@ -3,7 +3,7 @@ import M from 'materialize-css';
 
 import Link from './Link';
 import { AuthUserContext } from '../Context';
-import './NavBar.css';
+import './NavBar.scss';
 import {logout} from "../util/backend";
 
 function LoginItem({id, user, logOut}) {

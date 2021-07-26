@@ -5,7 +5,7 @@ import Route from './Route';
 import ProductCard from './ProductCard';
 import ProductEditModal from './ProductEditModal';
 import {ProductsFilterSidebar} from './ProductsFilterSidebar.js';
-import './ProductsPage.css';
+import './ProductsPage.scss';
 import {addToCart, isLoggedIn, loadProducts} from "../util/backend";
 
 export function ProductsPage() {
