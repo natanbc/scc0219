@@ -41,6 +41,12 @@ export function getCart(req: express.Request, res: express.Response): void {
         .findOne({ owner_email: getUserEmail(req) })
         .then(cart => {
             const products = cart ? cart["products"] || {} : {};
+            //keep only products with a non zero amount
+            for(const k of Object.getOwnPropertyNames(products)) {
+                if(products[k] === 0) {
+                    delete products[k];
+                }
+            }
             res.status(200).json(products);
         })
         .catch(e => {
