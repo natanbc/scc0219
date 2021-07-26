@@ -15,7 +15,9 @@ export function logout(userContext) {
 
 export function request(path, options) {
     //allows using `yarn start` with the backend
-    const prefix = localStorage.getItem("request_prefix");
+    const prefix = process.env.REACT_APP_API_PREFIX
+        ?? localStorage.getItem("request_prefix");
+
     return fetch(prefix ? prefix + path : path, options);
 }
 

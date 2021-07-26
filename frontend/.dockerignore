@@ -3,3 +3,4 @@
 !src
 !package.json
 !yarn.lock
+!nginx-local.conf
