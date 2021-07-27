@@ -47,7 +47,7 @@ export function SignUp() {
                     setUser({...user, name: event.target.value})
                 }>
                     Name</FormInput>
-                <FormInput name="email" type="email" icon="email" onChange={(event) =>
+                <FormInput name="email" type="email" icon="email" className="validate" onChange={(event) =>
                     setUser({...user, email: event.target.value})
                 }>
                     Email</FormInput>

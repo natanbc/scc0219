@@ -1,21 +1,12 @@
 [
   {
-    "email": "admin",
+    "email": "admin@ramranch.com",
     "__dev_password": "admin",
     "password": "f0c7122d7812c3735939006610cb6e77cb571218ca6dd95db1961c25430c92aa:c96d7a287f6a9e4b7485d94e330faf51961f3d3c812a81d2f4d283e7713744367d3a31ad16016c0c29fe33a8ffef99ad3fd81bac472687ae11e58c58817a85a7",
     "isAdmin": true,
     "phone": "+55 1234-5678",
     "name": "RamRanch Admin",
     "id": "1"
-  },
-  {
-    "email": "admin@ramranch.com",
-    "__dev_password": "really_rocks",
-    "password": "4bfe376faa802cfdceca5905a411082c8d90c69dd1ebf56a226a9b62e72c04f6:064c66d2e62a383866ed7bf64af9bdaffca3876c5354034b4214eec57e391b9dd410ecb8ef3cd668b30d32465696a1c09420e91bdb5b5ee745fc1cdcaf169481",
-    "isAdmin": true,
-    "phone": "+55 1234-5678",
-    "name": "RamRanch Admin",
-    "id": "2"
   },
   {
     "email": "cliente@gmail.com",
@@ -25,6 +16,6 @@
     "phone": "+55 5678-1234",
     "name": "John Doe",
     "address": "Chang'an Street 1989, Dongcheng District, Beijing",
-    "id": "3"
+    "id": "2"
   }
 ]

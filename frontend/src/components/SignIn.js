@@ -23,7 +23,7 @@ export function SignIn() {
 
     return <form className="card col s12" onSubmit={(e) => HandleLogin(e, authUserCtx)}>
         <div className="card-content">
-            <FormInput name="email" type="text" icon="email">
+            <FormInput name="email" type="email" icon="email" className="validate">
                 Email</FormInput>
             <FormInput name="password" type="password" icon="password">
                 Password</FormInput>
