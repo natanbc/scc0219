@@ -1,6 +1,7 @@
 import React from "react";
 
 import { AuthUserContext } from '../Context';
+import Link from './Link';
 import Route from './Route';
 import ProductCard from './ProductCard';
 import ProductEditModal from './ProductEditModal';
@@ -71,6 +72,17 @@ export function ProductsPage() {
                 product={{...productToEdit}} isNew={false}
                 onClose={() => setProductToEdit(null) }/>
         </Route>
+        <Route hash="#new-product">
+            <ProductEditModal id="new-product"
+                product={{...productToEdit}} isNew={true}
+                onClose={() => setProductToEdit(null) }/>
+        </Route>
+        <div class="fixed-action-btn">
+            <Link href="#new-product" onClick={() => setProductToEdit({}) }
+                className="btn-floating btn-large orange accent-4 waves-effect">
+                <i className="material-icons large">add</i>
+            </Link>
+        </div>
         <ProductsFilterSidebar/>
         <ul className="products-grid">
             <>
