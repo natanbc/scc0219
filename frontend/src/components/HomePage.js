@@ -28,7 +28,7 @@ export function HomePage() {
                 <br/>
                 RAM in the DIMM slots at Ram Ranch<br/>
                 <br/>
-                Tightly connected depserately waiting for overclocks<br/>
+                Tightly connected desperately waiting for overclocks<br/>
                 RAM Ranch really rocks!
             </div>
             <div className="col m1"/>
