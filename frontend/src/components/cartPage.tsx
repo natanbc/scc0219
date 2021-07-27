@@ -35,24 +35,24 @@ function CartItem(props: any) {
 
     };
 
-    return <tr key={props.id}>
-        <td>
+    return <div key={props.id} className="row center-align">
+        <div className="col s12 m1">
             <img src={props.photo} style={{ maxWidth: 50 }} alt=""/>
-        </td>
-        <td>{props.name}</td>
-        <td>{'R$ ' + props.price.toFixed(2)}</td>
-        <td className="input-field">
+        </div>
+        <div className="col s12 m4 flow-text">{props.name}</div>
+        <div className="col s12 m2 flow-text">{'Price: R$ ' + props.price.toFixed(2)}</div>
+        <div className="col s12 m2 input-field">
             <input type="number" value={amount} style={{ maxWidth: 50 }}
                 onChange={changeAmount}/>
-        </td>
-        <td>{'R$ ' + (props.price * amount).toFixed(2)}</td>
-        <td>
+        </div>
+        <div className="col s12 m2 flow-text">{'Total:\n R$ ' + (props.price * amount).toFixed(2)}</div>
+        <div className="col s12 m1">
             <button className="btn-flat fillh waves-effect waves-effect-light"
                 onClick={() => props.onRemove(props.id)}>
                 <i className="material-icons center">remove_shopping_cart</i>
             </button>
-        </td>
-    </tr>;
+        </div>
+    </div>;
 }
 
 class Card {
@@ -113,22 +113,7 @@ export default function CartPage() {
         fetchProducts();
     }, [fetchProducts]);
 
-    const cartItemTable =
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                { productCards }
-            </tbody>
-        </table>;
+    const cartItemTable = <div>{ productCards }</div>
 
     const paymentForm =
         <form>
