@@ -77,7 +77,7 @@ export function ProductsPage() {
                 product={{...productToEdit}} isNew={true}
                 onClose={() => setProductToEdit(null) }/>
         </Route>
-        <div class="fixed-action-btn">
+        <div className="fixed-action-btn">
             <Link href="#new-product" onClick={() => setProductToEdit({}) }
                 className="btn-floating btn-large orange accent-4 waves-effect">
                 <i className="material-icons large">add</i>

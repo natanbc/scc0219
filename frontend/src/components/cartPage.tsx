@@ -13,21 +13,26 @@ function CartItem(props: any) {
         const amountDifference: number = newAmount - amount;
 
         try {
-
+            let result;
             if (amountDifference > 0) {
-                for(let i = 0; i < amountDifference; i++) {
-                    await api.increaseCartAmount(props.id);
-                }
+                result = await api.increaseCartAmount(props.id, amountDifference);
             } else if (amountDifference < 0) {
-                for(let i = 0; i < Math.abs(amountDifference); i++) {
-                    await api.decreaseCartAmount(props.id);
-                }
+                result = await api.decreaseCartAmount(props.id, Math.abs(amountDifference));
+            } else {
+                setAmount(newAmount);
+                return;
             }
+            if(result.ok) {
+                setAmount(newAmount);
+                return;
+            }
+            const cart = await api.getCart();
+            // @ts-ignore
+            setAmount(cart[props.id]);
         } catch (e) {
             window.alert(`Failed to update item amount, due to ${e.name}: ${e.message}`);
         }
 
-        setAmount(newAmount);
     };
 
     return <tr key={props.id}>

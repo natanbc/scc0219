@@ -4,7 +4,7 @@ import {getUserEmail} from "./auth.js";
 import {isValidID} from "../util/id.js";
 import {Db} from "mongodb";
 
-async function tryAdd(database: Db, productId: string, email: string) {
+async function tryAdd(database: Db, productId: string, email: string, amount: number) {
     //first check if the product exists
     const product = await database.collection("products")
         .findOne({ id: productId });
@@ -13,8 +13,8 @@ async function tryAdd(database: Db, productId: string, email: string) {
     //if it does, decrease the available amount
     const updateResult = await database.collection("products")
         .updateOne(
-            { id: productId, amountAvailable: { $gte: 1 }},
-            { $inc: { amountAvailable: -1 } },
+            { id: productId, amountAvailable: { $gte: amount }},
+            { $inc: { amountAvailable: -amount } },
         );
     if(!updateResult.acknowledged || updateResult.modifiedCount === 0) {
         return { ok: false, message: "Insufficient amount in inventory" };
@@ -25,7 +25,7 @@ async function tryAdd(database: Db, productId: string, email: string) {
         .updateOne(
             { owner_email: email },
             {
-                $inc: { [`products.${productId}`]: 1 },
+                $inc: { [`products.${productId}`]: amount },
             },
             { upsert: true }
         );
@@ -53,11 +53,11 @@ export function getCart(req: express.Request, res: express.Response): void {
         });
 }
 
-function addOrIncrement(req: express.Request, res: express.Response, productId: string): void {
+function addOrIncrement(req: express.Request, res: express.Response, productId: string, amount: number): void {
     const server = Server.fromApp(req.app);
     const email = getUserEmail(req);
 
-    tryAdd(server.database, productId, email)
+    tryAdd(server.database, productId, email, amount)
         .then(status => {
             if(!status.ok) {
                 res.status(409).json({ message: status.message });
@@ -78,7 +78,7 @@ export function addToCart(req: express.Request, res: express.Response): void {
         return;
     }
 
-    addOrIncrement(req, res, productId);
+    addOrIncrement(req, res, productId, 1);
 }
 
 export function removeFromCart(req: express.Request, res: express.Response): void {
@@ -110,6 +110,14 @@ export function removeFromCart(req: express.Request, res: express.Response): voi
         .catch(() => res.status(500).json({ message: "Internal server error" }));
 }
 
+function parseAmount(raw: unknown): number {
+    if(typeof raw !== "string") return 1;
+    const parsed = parseInt(raw);
+    if(isNaN(parsed) || !Number.isSafeInteger(parsed)) return 1;
+    if(parsed < 1) return 1;
+    return parsed;
+}
+
 export function increaseCartAmount(req: express.Request, res: express.Response): void {
     const productId = req.params["id"];
     if(typeof productId !== 'string' || !isValidID(productId)) {
@@ -118,7 +126,7 @@ export function increaseCartAmount(req: express.Request, res: express.Response):
     }
     //while this is a separate route, adding to cart and increasing the amount
     //do exactly the same queries.
-    addOrIncrement(req, res, productId);
+    addOrIncrement(req, res, productId, parseAmount(req.query["amount"]));
 }
 
 export function decreaseCartAmount(req: express.Request, res: express.Response): void {
@@ -131,20 +139,21 @@ export function decreaseCartAmount(req: express.Request, res: express.Response):
     }
     const email = getUserEmail(req);
 
+    const amount = parseAmount(req.query["amount"]);
 
     const p = (async () => {
         //try removing one from the cart
         const res = await server.database.collection("carts")
             .findOneAndUpdate(
-                { owner_email: email, [`products.${productId}`]: { $gte: 1 } },
-                { $inc: { [`products.${productId}`]: -1 } }
+                { owner_email: email, [`products.${productId}`]: { $gte: amount } },
+                { $inc: { [`products.${productId}`]: -amount } }
             )
         if(!res.ok || !res.value) return;
-        const amount = res.value["products"][productId];
-        if(!amount || amount <= 0) return;
+        const oldAmount = res.value["products"][productId];
+        if(!oldAmount || oldAmount <= 0) return;
         //if the cart had something, return it to the inventory
         await server.database.collection("products")
-            .updateOne({ id: productId }, { $inc: { amountAvailable: 1 } });
+            .updateOne({ id: productId }, { $inc: { amountAvailable: amount } });
     })();
     p.then(() => res.status(200).json({ message: "Removed" }))
         .catch(() => res.status(500).json({ message: "Internal server error" }));

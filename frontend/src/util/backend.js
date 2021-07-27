@@ -97,11 +97,11 @@ export function updateProduct(id, data): Promise<void> {
     })).then(r => r.json());
 }
 
-export function getCart(): Promise<Object[]> {
+export function getCart(): Promise<Object> {
     return doAuthenticatedRequest("/api/cart").then(r => r.json());
 }
 
-export function addToCart(id): Promise<void> {
+export function addToCart(id): Promise<{ ok: boolean, message: string }> {
     return doAuthenticatedRequest("/api/cart", jsonBody({ id }, {
         method: "POST",
     })).then(r => {
@@ -112,7 +112,7 @@ export function addToCart(id): Promise<void> {
     });
 }
 
-export function removeFromCart(id): Promise<void> {
+export function removeFromCart(id): Promise<{ ok: boolean, message: string }> {
     return doAuthenticatedRequest("/api/cart/" + id, {
         method: "DELETE",
     }).then(r => {
@@ -123,8 +123,8 @@ export function removeFromCart(id): Promise<void> {
     })
 }
 
-export function increaseCartAmount(id): Promise<void> {
-    return doAuthenticatedRequest(`/api/cart/${id}/inc`, {
+export function increaseCartAmount(id, amount = 1): Promise<{ ok: boolean, message: string }> {
+    return doAuthenticatedRequest(`/api/cart/${id}/inc?amount=${amount}`, {
         method: "POST",
     }).then(r => {
         if(r.status !== 200) {
@@ -134,8 +134,8 @@ export function increaseCartAmount(id): Promise<void> {
     })
 }
 
-export function decreaseCartAmount(id): Promise<void> {
-    return doAuthenticatedRequest(`/api/cart/${id}/dec`, {
+export function decreaseCartAmount(id, amount = 1): Promise<{ ok: boolean, message: string }> {
+    return doAuthenticatedRequest(`/api/cart/${id}/dec?amount=${amount}`, {
         method: "POST",
     }).then(r => {
         if(r.status !== 200) {
