@@ -37,7 +37,9 @@ export function Select({ name, children, value, values, onChange }) {
 
     const valueOptions = [];
     for (const value in values) {
-        valueOptions.push(<option key={value} value={value}>{value}</option>);
+        if(values.hasOwnProperty(value)) {
+            valueOptions.push(<option key={value} value={value}>{value}</option>);
+        }
     }
 
     return <div className="input-field">
