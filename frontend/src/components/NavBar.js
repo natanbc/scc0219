@@ -4,12 +4,12 @@ import M from 'materialize-css';
 import Link from './Link';
 import { AuthUserContext } from '../Context';
 import './NavBar.scss';
-import {logout} from "../util/backend";
+import {isLoggedIn, logout} from "../util/backend";
 
 function LoginItem({id, user, logOut}) {
 
     const ref = React.createRef();
-    
+
     React.useEffect(() => M.Dropdown.init(ref.current, {}));
 
     return <>
@@ -45,11 +45,13 @@ export function NavBar() {
                     </li>
                 </ul>
                 <ul className="right hide-on-med-and-down">
-                    <li>
-                        <Link href="/cart">
-                            <i className="material-icons">shopping_cart</i>
-                        </Link>
-                    </li>
+                    { isLoggedIn() &&
+                        <li>
+                            <Link href="/cart">
+                                <i className="material-icons">shopping_cart</i>
+                            </Link>
+                        </li>
+                    }
                     <li>
                         <AuthUserContext.Consumer>
                             {context => context.user === null
@@ -68,11 +70,13 @@ export function NavBar() {
             <li>
                 <Link href="/products">Products</Link>
             </li>
-            <li>
-                <Link href="/cart">Cart
-                    <i className="material-icons right">shopping_cart</i>
-                </Link>
-            </li>
+            { isLoggedIn() &&
+                <li>
+                    <Link href="/cart">Cart
+                        <i className="material-icons right">shopping_cart</i>
+                    </Link>
+                </li>
+            }
             <li>
                 <AuthUserContext.Consumer>
                     {context => context.user === null

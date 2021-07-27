@@ -1,6 +1,6 @@
 import React from "react";
 import * as api from "../util/backend";
-import {AuthUserContext} from "../Context";
+import {AuthUserContext, RouteContext} from "../Context";
 import { Collapsible, CollapsibleItem, FormInput } from "./Materialize";
 
 function CartItem(props: any) {
@@ -70,8 +70,14 @@ export default function CartPage() {
     const [card, setCard] = React.useState<Card>(new Card());
 
     const authUserCtx = React.useContext(AuthUserContext);
+    const routeCtx = React.useContext(RouteContext);
 
     const fetchProducts = React.useCallback(async () => {
+        if(!api.isLoggedIn()) {
+            window.history.pushState({}, "RAM Ranch", "/signin");
+            routeCtx.setLocation({...window.location});
+            return;
+        }
         const cart = await api.getCart();
         const products = Object.getOwnPropertyNames(cart);
 
