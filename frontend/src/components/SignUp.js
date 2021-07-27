@@ -3,7 +3,7 @@ import React from 'react';
 import { AuthUserContext, RouteContext } from '../Context';
 import Link from './Link';
 
-import { FormInput } from './Materialize';
+import { FormInput } from './materialize';
 import { signUp } from "../util/backend";
 
 async function HandleSignUp(event, authUserCtx, routeCtx) {

@@ -3,7 +3,7 @@ import M from 'materialize-css';
 import { MemoryType, MemoryFormat, MemoryFrequency, MemoryCapacity } from '../model/MemoryInfo';
 
 import { RouteContext } from '../Context';
-import { FormInput, Select, TextArea } from './Materialize';
+import { FormInput, Select, TextArea } from './materialize';
 import {createProduct, updateProduct} from "../util/backend";
 
 export default function ProductEditModal(props) {

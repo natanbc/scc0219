@@ -2,7 +2,7 @@ import React from "react";
 import M from 'materialize-css';
 
 import { RouteContext } from '../Context';
-import { FormInput } from './Materialize';
+import { FormInput } from './materialize';
 import {createUser, updateUser} from "../util/backend";
 
 export default function UserEditModal(props) {

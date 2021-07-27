@@ -2,7 +2,7 @@ import React from 'react';
 
 import Link from './Link';
 import { AuthUserContext } from '../Context';
-import { FormInput } from './Materialize';
+import { FormInput } from './materialize';
 import {login} from "../util/backend";
 
 async function HandleLogin(event, authUserCtx) {
