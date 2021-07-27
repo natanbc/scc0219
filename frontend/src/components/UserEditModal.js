@@ -80,7 +80,7 @@ export default function UserEditModal(props) {
                     setUser({...user, confirmPassword: event.target.value})
                 }>
                 Confirm Password</FormInput>
-            { user.isAdmin &&
+            { !user.isAdmin &&
                 <FormInput name="address" type="text"
                     value={user.address} onChange={(event) =>
                         setUser({...user, address: event.target.value})
