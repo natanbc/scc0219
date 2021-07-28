@@ -32,7 +32,9 @@ services:
       - outbound
 
   ramranch-api:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     image: ramranch-api:dev
     init: true # Node.js is not meant to run as PID 1, this spawns tini.
     environment:
@@ -48,7 +50,8 @@ services:
 
   ramranch-web:
     build:
-      context: ./frontend
+      context: .
+      dockerfile: frontend/Dockerfile
     image: ramranch-web:dev
     ports:
       - 3002:80

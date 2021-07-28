@@ -21,7 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# no locks for libraries
-package-lock.json
-yarn.lock
