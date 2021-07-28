@@ -86,6 +86,10 @@ Manualmente checar utilizando um navegador que:
 - Todas páginas renderizam como esperado.
 - Não há erros ou avisos no console.
 
+Automaticamente, em cada commit:
+- Rodar uma build completa via Github Actions.
+- Se a build concluir com sucesso, fazer o deploy no servidor.
+
 ## Procedimento de compilação
 
 Para rodar a aplicação.
