@@ -1,17 +1,19 @@
 import React from 'react';
 
 import Link from './Link';
-import { AuthUserContext } from '../Context';
+import { AuthUserContext, RouteContext } from '../Context';
 import { FormInput } from './materialize';
-import {login} from "../util/backend";
+import { login } from "../util/backend";
 
-async function HandleLogin(event, authUserCtx) {
+async function HandleLogin(event, authUserCtx, routeCtx) {
     event.preventDefault();
 
     try {
         await login(authUserCtx, event.target.email.value, event.target.password.value);
-        event.target.email.value = "";
-        event.target.password.value = "";
+
+        const location = routeCtx.location;
+        location.pathname = "/";
+        routeCtx.setLocation({...location});
         alert("Success");
     } catch(e) {
         alert("Invalid email or password");
@@ -20,10 +22,11 @@ async function HandleLogin(event, authUserCtx) {
 
 export function SignIn() {
     const authUserCtx = React.useContext(AuthUserContext);
+    const routeCtx = React.useContext(RouteContext);
 
-    return <form className="card col s12" onSubmit={(e) => HandleLogin(e, authUserCtx)}>
+    return <form className="card col s12" onSubmit={(e) => HandleLogin(e, authUserCtx, routeCtx)}>
         <div className="card-content">
-            <FormInput name="email" type="text" icon="email">
+            <FormInput name="email" type="email" icon="email" className="validate">
                 Email</FormInput>
             <FormInput name="password" type="password" icon="password">
                 Password</FormInput>

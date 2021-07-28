@@ -1,10 +1,40 @@
 import { SignIn } from './SignIn.js';
 
+function easterEgg() {
+    if(!window.epic_song) {
+        const audio = new Audio("https://files.natanbc.net/usp/scc0219/ram_ranch.opus");
+        audio.loop = true;
+        audio.volume = 0.1;
+        window.epic_song = audio;
+        audio.play().then(() => {
+            alert("RAM RANCH REALLY ROCKS");
+        });
+    } else {
+        if(window.epic_song.paused) {
+            window.epic_song.play();
+        } else {
+            window.epic_song.pause();
+        }
+    }
+}
+
 export function HomePage() {
     return <div>
         <div className="row">
-            <div className="col s12 m6 flow-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam suscipit lacus sit amet metus ullamcorper, at condimentum neque sagittis. Praesent euismod tortor nisi, eu lacinia elit volutpat et. Integer interdum libero id porttitor pulvinar. Nulla vel sagittis orci. Sed dignissim ex in massa tempus, a euismod risus consectetur. Proin et massa in magna tempus commodo. Phasellus et dui luctus, tincidunt est a, facilisis nibh. Quisque vel elit ac diam vehicula aliquam sit amet sit amet nunc. Aenean vestibulum eros sit amet urna scelerisque rutrum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus nec nibh efficitur, gravida lorem at, dignissim nisi. Vivamus nec ornare felis. Sed eu nibh volutpat, ultrices tellus a, ultricies nisl.
+            <div className="col s0 m1"/>
+            <div className="col s12 m5 flow-text">
+                <br/><br/>
+                32 gigs of RAM in the DIMM slots at RAM Ranch<br/>
+                <br/>
+                Red hot connection pins wanting to be read<br/>
+                32 gigs of RAM wanting their memory to be fed<br/>
+                <br/>
+                RAM in the DIMM slots at Ram Ranch<br/>
+                <br/>
+                Tightly connected desperately waiting for overclocks<br/>
+                <div className="flow-text" style={{cursor: "pointer"}} onClick={() => easterEgg()}>
+                    RAM Ranch really rocks!
+                </div>
             </div>
             <div className="col m1"/>
             <div className="col s12 m5">

@@ -115,13 +115,13 @@ export function updateProduct(id: string, data: models.Product): Promise<void> {
     })).then(r => r.json());
 }
 
-export function getCart(): Promise<Object[]> {
+export function getCart(): Promise<Object> {
     return doAuthenticatedRequest("/api/cart").then(r => r.json());
 }
 
 export interface MsgResponse {
     ok: boolean,
-    message: any,
+    message: string,
 }
 
 export function addToCart(id: string): Promise<MsgResponse> {
@@ -146,8 +146,8 @@ export function removeFromCart(id: string): Promise<MsgResponse> {
     })
 }
 
-export function increaseCartAmount(id: string): Promise<MsgResponse> {
-    return doAuthenticatedRequest(`/api/cart/${id}/inc`, {
+export function increaseCartAmount(id: string, amount: number = 1): Promise<MsgResponse> {
+    return doAuthenticatedRequest(`/api/cart/${id}/inc?amount=${amount}`, {
         method: "POST",
     }).then(r => {
         if(r.status !== 200) {
@@ -157,8 +157,8 @@ export function increaseCartAmount(id: string): Promise<MsgResponse> {
     })
 }
 
-export function decreaseCartAmount(id: string): Promise<MsgResponse> {
-    return doAuthenticatedRequest(`/api/cart/${id}/dec`, {
+export function decreaseCartAmount(id: string, amount: number = 1): Promise<MsgResponse> {
+    return doAuthenticatedRequest(`/api/cart/${id}/dec?amount=${amount}`, {
         method: "POST",
     }).then(r => {
         if(r.status !== 200) {

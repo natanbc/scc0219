@@ -7,7 +7,7 @@ Projeto para a matéria **SSC0219 - Introdução ao desenvolvimento web**.
 	- Administradores:
 		- Registrar/Editar/Deletar usuários.
 		- Registrar/Editar/Deletar produtos.
-		- O sistema, por padrão, deve ter uma conta de administrador *admin*, prédefina com senha *admin*.
+		- O sistema, por padrão, deve ter uma conta de administrador *admin@ramranch.com*, prédefina com senha *admin*.
 	- Clientes:
 		- Criar uma conta.
 		- Comprar produtos.

@@ -22,43 +22,49 @@ function CartRow(props: CartRowProps): JSX.Element {
         const newAmount: number = event.target.valueAsNumber;
         const amountDifference: number = newAmount - amount;
 
+        let result;
         try {
 
             if (amountDifference > 0) {
-                for(let i = 0; i < amountDifference; i++) {
-                    await api.increaseCartAmount(product.id);
-                }
+                result = await api.increaseCartAmount(product.id, amountDifference);
             } else if (amountDifference < 0) {
-                for(let i = 0; i < Math.abs(amountDifference); i++) {
-                    await api.decreaseCartAmount(product.id);
-                }
+                result = await api.decreaseCartAmount(product.id, Math.abs(amountDifference));
+            } else {
+                setAmount(newAmount);
+                return;
             }
+
+            if(result.ok) {
+                setAmount(newAmount);
+                return;
+            }
+
+            const cart = await api.getCart();
+            // @ts-ignore
+            setAmount(cart[props.id]);
         } catch (e) {
             window.alert(`Failed to update item amount, due to ${e.name}: ${e.message}`);
         }
-
-        setAmount(newAmount);
     };
 
-
-    return <tr key={product.id}>
-        <td>
+    return <div key={product.id} className="row center-align">
+        <div className="col s12 m1">
             <img src={product.photo ?? undefined} style={{ maxWidth: 50 }} alt=""/>
-        </td>
-        <td>{product.name}</td>
-        <td>{'R$ ' + product.price.toFixed(2)}</td>
-        <td className="input-field">
+        </div>
+        <div className="col s12 m4 flow-text">{product.name}</div>
+        <div className="col s12 m2 flow-text">{'Price: R$ ' + product.price.toFixed(2)}</div>
+        <div className="col s12 m2 input-field">
             <input type="number" value={amount} style={{ maxWidth: 50 }}
                 onChange={changeAmount}/>
-        </td>
-        <td>{'R$ ' + (product.price * amount).toFixed(2)}</td>
-        <td>
+        </div>
+        <div className="col s12 m2 flow-text">{'Total:\n R$ ' + (product.price * amount).toFixed(2)}</div>
+        <div className="col s12 m1">
             <button className="btn-flat fillh waves-effect waves-effect-light"
                 onClick={() => product.id && props.onRemove(product.id)}>
                 <i className="material-icons center">remove_shopping_cart</i>
             </button>
-        </td>
-    </tr>;
+        </div>
+    </div>;
 }
 
 export interface Props {
@@ -68,24 +74,12 @@ export interface Props {
 
 export function CartEditTable(props: Props): JSX.Element {
 
-    return <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                { props.cartItems.map((product: CartItem) =>
-                    <CartRow
-                        cartItem={product}
-                        onRemove={props.onRemove}
-                    />)
-                }
-            </tbody>
-        </table>;
+    return <div>
+            { props.cartItems.map((product: CartItem) =>
+                <CartRow
+                    cartItem={product}
+                    onRemove={props.onRemove}
+                />)
+            }
+        </div>;
 }

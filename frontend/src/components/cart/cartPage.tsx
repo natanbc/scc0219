@@ -5,7 +5,7 @@ import { models } from 'ramranch-lib';
 import { Card, CartEditTable, CartItem, CartViewTable, PaymentCardForm } from '../cart';
 
 import * as api from '../../util/backend';
-import { AuthUserContext } from '../../Context';
+import { AuthUserContext, RouteContext } from '../../Context';
 import { Collapsible, CollapsibleItem, FormInput } from '../materialize';
 import { ConfirmPanel } from './confirmPanel';
 
@@ -14,6 +14,7 @@ export function CartPage() {
     const [card, setCard] = React.useState<Card>(new Card());
 
     const authUserCtx = React.useContext(AuthUserContext);
+    const routeCtx = React.useContext(RouteContext);
 
     const fetchProducts = React.useCallback(async () => {
         const cart = await api.getCart();
@@ -41,6 +42,12 @@ export function CartPage() {
     };
 
     React.useEffect(() => {
+        if(!api.isLoggedIn()) {
+            window.history.pushState({}, "RAM Ranch", "/signin");
+            routeCtx.setLocation({...window.location});
+            return;
+        }
+
         fetchProducts();
     }, [fetchProducts]);
 

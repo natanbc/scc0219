@@ -3,8 +3,9 @@ import UserEditModal from './UserEditModal.js'
 import React from "react";
 import Route from './Route';
 import Link from './Link';
-import { AuthUserContext } from '../Context';
+import {AuthUserContext, RouteContext} from '../Context';
 import {loadUsers} from "../util/backend";
+import * as api from "../util/backend";
 
 export function UserListItem({ user, onClick }) {
     return <Link href="#edit-user" onClick={onClick}
@@ -31,8 +32,15 @@ export function UsersPage({usersRepo}) {
     const [userItems, setUserItems] = React.useState([]);
 
     const authUserCtx = React.useContext(AuthUserContext);
+    const routeCtx = React.useContext(RouteContext);
 
     const fetchUsers = React.useCallback(async () => {
+        if(!api.isLoggedIn()) {
+            window.history.pushState({}, "RAM Ranch", "/signin");
+            routeCtx.setLocation({...window.location});
+            return;
+        }
+
         const userItems = [];
 
         let fetchId = "0";
@@ -88,9 +96,9 @@ export function UsersPage({usersRepo}) {
                         <i className="material-icons large">add</i>
                     </Link>
                 </div>
-                { userItems } 
+                { userItems }
             </div>
         </div>
- 
+
     </div>;
 }

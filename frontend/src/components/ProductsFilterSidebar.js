@@ -7,19 +7,31 @@ import './ProductsFilterSidebar.scss'
 function Checkbox(props) {
     return <p>
             <label>
-                <input type="checkbox" id={props.id} className="filled-in"/>
+                <input type="checkbox" id={props.id} onChange={props.onChange} className="filled-in"/>
                 <span>{props.label}</span>
             </label>
         </p>;
 }
 
-function FilterGroup({title, values, where}) {
-    const checkboxes = [];
-    for (const value in values) {
-        if(values.hasOwnProperty(value)) {
-            const id = `checkbox-${where}-${value}`
-            checkboxes.push(<Checkbox label={value} id={id} key={id}/>);
+function filterList(values, key, products) {
+    const res = {};
+    for(const k of Object.getOwnPropertyNames(values)) {
+        if(products.find(p => p[key] === k)) {
+            res[k] = values[k];
         }
+    }
+    return res;
+}
+
+function FilterGroup({title, values, where, filterKey, onChange, products, filter}) {
+    const filteredValues = filterList(values, filterKey, filter.filterValues(products));
+    const checkboxes = [];
+    for (const value of Object.getOwnPropertyNames(values)) {
+        if(!filteredValues[value] && !filter.isEnabled(filterKey, value)) continue;
+        const id = `checkbox-${where}-${value}`
+        checkboxes.push(<Checkbox label={value} id={id} key={id} onChange={(event) => {
+            onChange(filterKey, value, event.target.checked);
+        }}/>);
     }
 
     return <>
@@ -35,17 +47,44 @@ function FilterGroup({title, values, where}) {
         </>;
 }
 
-
-export function ProductsFilterSidebar() {
+export function ProductsFilterSidebar({products, onChange, filter}) {
     const filters = (where) => <>
                 <form>
                     <h5>
                         Filters
                     </h5>
-                    <FilterGroup title="Memory Type"      where={where} values={MemoryType}/>
-                    <FilterGroup title="Memory Format"    where={where} values={MemoryFormat}/>
-                    <FilterGroup title="Memory Capacity"  where={where} values={MemoryCapacity}/>
-                    <FilterGroup title="Memory Frequency" where={where} values={MemoryFrequency}/>
+                    <FilterGroup title="Memory Type"
+                                 where={where}
+                                 onChange={onChange}
+                                 filterKey="memoryType"
+                                 values={MemoryType}
+                                 products={products}
+                                 filter={filter}
+                    />
+                    <FilterGroup title="Memory Format"
+                                 where={where}
+                                 onChange={onChange}
+                                 filterKey="memoryFormat"
+                                 values={MemoryFormat}
+                                 products={products}
+                                 filter={filter}
+                    />
+                    <FilterGroup title="Memory Capacity"
+                                 where={where}
+                                 onChange={onChange}
+                                 filterKey="memoryCapacity"
+                                 values={MemoryCapacity}
+                                 products={products}
+                                 filter={filter}
+                    />
+                    <FilterGroup title="Memory Frequency"
+                                 where={where}
+                                 onChange={onChange}
+                                 filterKey="memoryFrequency"
+                                 values={MemoryFrequency}
+                                 products={products}
+                                 filter={filter}
+                    />
                 </form>
         </>;
 

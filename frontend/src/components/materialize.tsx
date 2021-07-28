@@ -70,9 +70,17 @@ export function Select(props: SelectProps): JSX.Element {
             }
         }, []);
 
+    const valueOptions = [];
+    for (const value in props.values) {
+        valueOptions.push(<option key={value} value={value}>{value}</option>);
+        if(props.values.hasOwnProperty(value)) {
+            valueOptions.push(<option key={value} value={value}>{value}</option>);
+        }
+    }
+
     return <div className="input-field">
         <select id={props.name} ref={selectRef} value={props.value} onChange={props.onChange}>
-            { props.values.map(value => <option key={value} value={value}>{value}</option>) }
+            { valueOptions }
         </select>
         <label htmlFor={props.name}>{props.children}</label>
     </div>;

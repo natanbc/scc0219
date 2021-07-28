@@ -2,10 +2,10 @@ import React from 'react';
 
 export const AuthUserContext = React.createContext({
 	user: null,
-	setUser: () => {},
+	setUser: (_: Object) => {},
 });
 
 export const RouteContext = React.createContext({
 	location: window.location,
-	setLocation: () => {},
+	setLocation: (_: typeof window.location) => {},
 });

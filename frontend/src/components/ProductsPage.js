@@ -8,17 +8,20 @@ import ProductEditModal from './ProductEditModal';
 import {ProductsFilterSidebar} from './ProductsFilterSidebar.js';
 import './ProductsPage.scss';
 import {addToCart, isLoggedIn, loadProducts} from "../util/backend";
+import Filters from "../util/filters";
 
 export function ProductsPage() {
     // State
     const [productToEdit, setProductToEdit] = React.useState(null);
 
-    const [productCards, setProductCards] = React.useState([]);
+    const [allProducts, setAllProducts] = React.useState([]);
+
+    const [filters, setFilters] = React.useState(new Filters());
 
     const authUserCtx = React.useContext(AuthUserContext);
 
     const fetchProducts = React.useCallback(async () => {
-        const productCardsTmp = [];
+        const _all = [];
 
         let fetchId = "0";
         while(true) {
@@ -33,7 +36,42 @@ export function ProductsPage() {
             if(products.length === 0) break;
             fetchId = products[products.length - 1].id;
             for (const product of products) {
-                productCardsTmp.push(
+                _all.push(product);
+            }
+        }
+
+        setAllProducts(_all);
+    }, [authUserCtx.user, productToEdit]);
+
+    React.useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
+
+    return <div className="products-page">
+        <Route hash="#edit-product">
+            <ProductEditModal id="edit-product"
+                product={{...productToEdit}} isNew={false}
+                onClose={() => setProductToEdit(null) }/>
+        </Route>
+        <Route hash="#new-product">
+            <ProductEditModal id="new-product"
+                product={{...productToEdit}} isNew={true}
+                onClose={() => setProductToEdit(null) }/>
+        </Route>
+        <div className="fixed-action-btn">
+            <Link href="#new-product" onClick={() => setProductToEdit({}) }
+                className="btn-floating btn-large orange accent-4 waves-effect">
+                <i className="material-icons large">add</i>
+            </Link>
+        </div>
+        <ProductsFilterSidebar
+            products={allProducts}
+            onChange={(key, value, enabled) => setFilters(filters.with(key, value, enabled))}
+            filter={filters}
+        />
+        <ul className="products-grid">
+            <>
+                {filters.filterValues(allProducts).map(product => <>
                     <li key={product.id}>
                         <ProductCard
                             product={product}
@@ -55,38 +93,9 @@ export function ProductsPage() {
                             onEdit={ () => setProductToEdit(product) }
                             editable={ authUserCtx.user != null && authUserCtx.user.isAdmin }
                         />
-                    </li>);
-            }
-        }
-
-        setProductCards(productCardsTmp);
-    }, [authUserCtx.user, productToEdit]);
-
-    React.useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
-
-    return <div className="products-page">
-        <Route hash="#edit-product">
-            <ProductEditModal id="edit-product"
-                product={{...productToEdit}} isNew={false}
-                onClose={() => setProductToEdit(null) }/>
-        </Route>
-        <Route hash="#new-product">
-            <ProductEditModal id="new-product"
-                product={{...productToEdit}} isNew={true}
-                onClose={() => setProductToEdit(null) }/>
-        </Route>
-        <div class="fixed-action-btn">
-            <Link href="#new-product" onClick={() => setProductToEdit({}) }
-                className="btn-floating btn-large orange accent-4 waves-effect">
-                <i className="material-icons large">add</i>
-            </Link>
-        </div>
-        <ProductsFilterSidebar/>
-        <ul className="products-grid">
-            <>
-                {productCards}
+                    </li>
+                    </>
+                )}
             </>
         </ul>
     </div>;
