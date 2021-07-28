@@ -21,13 +21,17 @@ export function CartPage() {
         const products = Object.getOwnPropertyNames(cart);
 
         const productsTmp = await Promise.all(products.map(async (id: any) => {
+            const amount = cart[id] as number;
+            if(amount <= 0) {
+                return { product: {} as models.Product, amount: 0 };
+            }
             const product: models.Product = await api.getProduct(id);
             product.id = id;
 
-            return { product: product, amount: cart[id] as number };
+            return { product: product, amount: amount };
         }));
 
-        setCartItems(productsTmp);
+        setCartItems(productsTmp.filter(p => p.amount > 0));
     }, [authUserCtx.user]);
 
     const removeProduct = async function(id: any) {

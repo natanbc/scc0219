@@ -1,4 +1,5 @@
 import { models } from 'ramranch-lib';
+import {Card} from "../components/cart";
 
 interface IAuthUserContext {
     user: models.User,
@@ -166,6 +167,17 @@ export function decreaseCartAmount(id: string, amount: number = 1): Promise<MsgR
         }
         return r.json().then(data => ({ ok: true, message: data.message }));
     })
+}
+
+export function finishPurchase(cardDetails: Card): Promise<MsgResponse> {
+    return doAuthenticatedRequest("/api/cart/buy", jsonBody(cardDetails, {
+        method: "POST"
+    })).then(r => {
+        if(r.status !== 200) {
+            return r.json().then(data => ({ ok: false, message: data.message }));
+        }
+        return r.json().then(data => ({ ok: true, message: data.message }));
+    });
 }
 
 export function loadUsers(startId: string): Promise<Object[]> {

@@ -158,3 +158,21 @@ export function decreaseCartAmount(req: express.Request, res: express.Response):
     p.then(() => res.status(200).json({ message: "Removed" }))
         .catch(() => res.status(500).json({ message: "Internal server error" }));
 }
+
+export function finishPurchase(req: express.Request, res: express.Response): void {
+    const server = Server.fromApp(req.app);
+    const email = getUserEmail(req);
+
+    server.database.collection("carts")
+        .findOneAndDelete(
+            { owner_email: email }
+        )
+        .then(result => {
+            if(!result.ok || !result.value || Object.values(result.value).reduce((a,b) => a + b, 0) <= 0) {
+                res.status(409).json({ message: "No items in the cart" });
+                return;
+            }
+            res.status(200).json({ message: "Purchase successful" });
+        })
+        .catch(() => res.status(500).json({ message: "Internal server error" }));
+}
