@@ -88,25 +88,35 @@ Manualmente checar utilizando um navegador que:
 
 ## Procedimento de compilação
 
-Para compilar o projeto são necessários o npm e o yarn.
-- [Instale o Node](https://nodejs.org/en/download/)
-- [Instale o NPM](https://docs.npmjs.com/cli/v7/configuring-npm/install)
-- [Instale o Yarn](https://yarnpkg.com/getting-started/install)
-
-Para rodar o servidor integrado:
-
+Para rodar a aplicação.
 ```
-cd frontend
-yarn
-yarn start
-firefox localhost:3000
+docker-compose -f docker-compose-yml up -d --build
+firefox localhost:3002
 ```
 
-Para rodar o servidor de backend
+Para parar a aplicação.
+```
+docker-compose -f docker-compose-yml down
+```
 
-```
-docker-compose up --build
-```
+<!-- ### Manualmente -->
+
+<!-- Para compilar o projeto são necessários o npm e o yarn. -->
+<!-- - [Instale o Node](https://nodejs.org/en/download/) -->
+<!-- - [Instale o NPM](https://docs.npmjs.com/cli/v7/configuring-npm/install) -->
+<!-- - [Instale o Yarn](https://yarnpkg.com/getting-started/install) -->
+
+<!-- Para rodar o servidor integrado: -->
+
+<!-- ``` -->
+<!-- cd lib -->
+<!-- npm install -->
+<!-- npm run build -->
+<!-- cd ../frontend -->
+<!-- yarn install -->
+<!-- REACT_APP_API_PREFIX=http://localhost:3001 yarn start -->
+<!-- firefox localhost:3000 -->
+<!-- ``` -->
 
 ## Problemas enfrentados
 
