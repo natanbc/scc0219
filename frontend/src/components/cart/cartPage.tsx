@@ -22,6 +22,7 @@ export function CartPage() {
 
         const productsTmp = await Promise.all(products.map(async (id: any) => {
             const product: models.Product = await api.getProduct(id);
+            product.id = id;
 
             return { product: product, amount: cart[id] as number };
         }));
