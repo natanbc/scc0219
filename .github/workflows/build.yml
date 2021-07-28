@@ -8,4 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: docker-compose -f "docker-compose.yml" build
+        run: docker-compose -f "docker-compose.yml" up -d --build
+      - name: Stop running
+        run: docker-compose -f "docker-compose.yml" down -v -f
+      - name: Push to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: source ~/.bashrc && cd ${{ secrets.PROJECT_PATH }} && git pull && docker-compose up -d --build
